@@ -459,6 +459,54 @@ package com.elad.framework.sqlite
 		
 		//--------------------------------------------------------------------------
 		//
+		//  AIR 2.0 additional methods
+		//
+		//--------------------------------------------------------------------------		
+		
+		/**
+		 * Method to set save point.
+		 * 
+		 * @param name
+		 * @param responder
+		 * 
+		 * @see flash.data.SQLConnection.setSavepoint
+		 * 
+		 */		
+		public function setSavepoint(name:String="", responder:Responder=null):void
+		{
+			connection.setSavepoint(name, responder);
+		}
+		
+		/**
+		 * Method to release the save point.
+		 * 
+		 * @param name
+		 * @param responder
+		 * 
+		 * @see flash.data.SQLConnection.releaseSavepoint
+		 * 
+		 */		
+		public function releaseSavepoint(name:String="", responder:Responder=null):void
+		{
+			connection.releaseSavepoint(name, responder);
+		}
+		
+		/**
+		 * Method to rollback save point
+		 * 
+		 * @param name
+		 * @param responder
+		 * 
+		 * @see flash.data.SQLConnection.rollbackToSavepoint
+		 * 
+		 */		
+		public function rollbackToSavepoint(name:String="", responder:Responder=null):void
+		{
+			connection.rollbackToSavepoint(name, responder);
+		}		
+		
+		//--------------------------------------------------------------------------
+		//
 		//  Handlers
 		//
 		//--------------------------------------------------------------------------	
