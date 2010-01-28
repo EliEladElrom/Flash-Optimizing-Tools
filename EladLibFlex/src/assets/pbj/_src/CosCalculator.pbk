@@ -1,0 +1,18 @@
+<languageVersion : 1.0;>
+kernel SinCalculator
+<
+    namespace : "pixelBender";
+    vendor : "Elad Elrom";
+    version : 1;
+    description : "Cos Calculator";
+>
+{
+    input image1 src;
+    output pixel3 result;
+
+    void evaluatePixel()
+    {
+    	pixel1 value = pixel1(cos(sample(src, outCoord())));
+    	result = pixel3(value, 0.0, 0.0);
+    }
+}

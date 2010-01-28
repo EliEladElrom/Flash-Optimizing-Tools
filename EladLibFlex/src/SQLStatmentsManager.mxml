@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" viewSourceURL="srcview/index.html">
+
+	<!-- 
+	 	Copyright (c) 2008 Elad Elrom.  Elrom LLC. All rights reserved. 
+		
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated documentation
+		files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use,
+		copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following
+		conditions:
+		
+		The above copyright notice and this permission notice shall be
+		included in all copies or substantial portions of the Software.
+		
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+		OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+		NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+		WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+		FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+		OTHER DEALINGS IN THE SOFTWARE.
+	
+	 	@author  Elad Elrom
+	 	@contact elad@elromdesign.com
+	-->
+	
+	<mx:Script>
+		<![CDATA[
+			
+			import com.elad.framework.sqlstatments.ConcreteContacts;
+			import com.elad.framework.sqlstatments.ConcretePersonalInformation;
+			
+			import com.elad.framework.sqlstatments.ConcretePersonalInformation;
+			import com.elad.framework.sqlstatments.AbstractDataServicesManager;
+			import mx.collections.ArrayCollection;
+			
+			
+			private function submitForm1():void {
+
+				// array collection
+				var arrayCollection : Array = new Array();
+				arrayCollection = [ {fname: fname.text, lname: lname.text, email: email.text, address: address.text} ];
+				
+				// concrete creators
+				var SQLcreator : AbstractDataServicesManager = new ConcretePersonalInformation();
+				
+				// creators operate
+				var array : Array = SQLcreator.getSQLStatments(arrayCollection);
+				list.dataProvider = array;
+			}
+			
+			private function submitForm2():void {
+
+				// array collection
+				var arrayCollection : Array = new Array();
+				arrayCollection = [ {fname: fname2.text, lname: lname2.text, email: email2.text} ];
+				
+				// concrete creators
+				var SQLcreator : AbstractDataServicesManager = new ConcreteContacts();
+				
+				// creators operate
+				var array : Array = SQLcreator.getSQLStatments(arrayCollection);
+				list.dataProvider = array;
+			}			
+			
+		]]>
+	</mx:Script>
+	
+	<!-- Form1 -->
+	<mx:Form x="36" y="22" width="276" height="182" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormHeading label="Form1" textAlign="left" width="242"/>
+		<mx:FormItem label="First Name">
+			<mx:TextInput id="fname"/>
+		</mx:FormItem>
+		<mx:FormItem label="Last Name">
+			<mx:TextInput id="lname"/>
+		</mx:FormItem>
+		<mx:FormItem label="Address">
+			<mx:TextInput id="address"/>
+		</mx:FormItem>
+		<mx:FormItem label="Email">
+			<mx:TextInput id="email"/>
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Button label="Submit" width="161" click="submitForm1()"/>
+		</mx:FormItem>
+	</mx:Form>
+
+	<!-- Form2 -->	
+	<mx:Form x="324" y="22" width="309" height="182"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormHeading label="Form2"/>
+		<mx:FormItem label="Contact Name">
+			<mx:TextInput id="fname2"/>
+		</mx:FormItem>
+		<mx:FormItem label="Contact Last Name">
+			<mx:TextInput id="lname2"/>
+		</mx:FormItem>
+		<mx:FormItem label="Email">
+			<mx:TextInput id="email2"/>
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Button label="Submit" width="161" click="submitForm2()"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:List id="list" 
+			 x="36" 
+			 y="223" 
+			 width="597"/>
+		
+</mx:Application>
+

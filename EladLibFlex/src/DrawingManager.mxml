@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	xmlns:draw="com.elad.framework.drawingmanager.*">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			[Bindable] private var locX:int = -450;
+			[Bindable] private var locY:int = -340;
+			[Bindable] private var sWidth:int = 80;
+			
+			[Bindable] private var sHeight:int = sWidth;
+			[Bindable] private var gap:int = sWidth+sWidth*0.2;
+	
+			private function updateSize():void
+			{
+				sWidth = 190;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<draw:Drawing id="playButton" 
+				  buttonMode="true"
+				  creationComplete="playButton.CreateRectangle(sWidth, sHeight, locX, locY, 0xFFFFFF, 'round', 25); 
+				  playButton.CreateTriangle(sWidth*0.6, sWidth*0.6, locX+sWidth*0.8, locY+sWidth*0.17, 0x000000, 1, 90);"
+				  toolTip="play"
+				  horizontalCenter="0" verticalCenter="0" 
+				  alpha="0.5"
+				  mouseOver="playButton.alpha = 0.75"
+				  mouseOut="playButton.alpha = 0.5" />
+
+	<draw:Drawing id="recButton" 
+				  buttonMode="true" 
+				  creationComplete="recButton.CreateRectangle(sWidth, sHeight, locX+gap, locY, 0xFFFFFF, 'round', 25); 
+				  recButton.CreateCircle(31, 38, locX+gap+sWidth/2, locY+sWidth/2, 0x000000, sWidth*0.3);"
+				  toolTip="record"
+				  horizontalCenter="0" verticalCenter="0" 
+				  alpha="0.5"
+				  mouseOver="recButton.alpha = 0.75"
+				  mouseOut="recButton.alpha = 0.5" />
+	
+	<mx:TextInput x="46" y="144" width="94"/>
+	<mx:Text id="sizeLabel" x="10" y="146" text="Size:" color="#FFFFFF" width="37"/>
+	<mx:Button x="148" y="144" label="Button" click="updateSize();"/>
+				  
+	
+		
+</mx:Application>

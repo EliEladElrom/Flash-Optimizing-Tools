@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/halo"
+	creationComplete="init()">
+
+    <!-- 
+         Copyright (c) 2009 Elad Elrom.  Elrom LLC. All rights reserved. 
+        
+        Permission is hereby granted, free of charge, to any person
+        obtaining a copy of this software and associated documentation
+        files (the "Software"), to deal in the Software without
+        restriction, including without limitation the rights to use,
+        copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the
+        Software is furnished to do so, subject to the following
+        conditions:
+        
+        The above copyright notice and this permission notice shall be
+        included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+        EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+        OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+        HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+        WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+        OTHER DEALINGS IN THE SOFTWARE.
+    
+         @author  Elad Elrom
+         @contact elad.ny at gmail.com
+    -->
+    
+    <fx:Script>
+    	<![CDATA[
+    		
+    		import com.elad.framework.utils.ContextAwarenessManager;
+			
+			private var ca:ContextAwarenessManager = ContextAwarenessManager.getInstance();
+			
+			private function init():void
+			{
+				ca.addEventListener(ContextAwarenessManager.USER_IDLE, onUserHandler);
+				ca.addEventListener(ContextAwarenessManager.USER_PRESENT, onUserHandler);
+				ca.addEventListener(ContextAwarenessManager.HTTP_CONNECTIVITY_TRUE, onHTTPConnectivityChange);
+				ca.addEventListener(ContextAwarenessManager.HTTP_CONNECTIVITY_FALSE, onHTTPConnectivityChange);
+				ca.addEventListener(ContextAwarenessManager.NATIVE_WINDOW_MOVED, onWindowedApplicationMovment);
+				ca.addEventListener(ContextAwarenessManager.NETWORK_CHANGE, onNetworkStatusChange);
+				ca.addEventListener(ContextAwarenessManager.SOCKET_CONNECTIVITY_FALSE, onSocketStatusChange);
+				ca.addEventListener(ContextAwarenessManager.SOCKET_CONNECTIVITY_TRUE, onSocketStatusChange);
+				
+				ca.start();
+				textArea.text = "Start Tracking";
+			}
+			
+			private function onUserHandler(evt:Event):void
+			{
+				textArea.text += "\nisUserPresent: "+ca.contextVO.isUserPresent.toString();
+				textArea.text += "\nlastUserInput: "+ca.contextVO.lastUserInput.toString();
+			}
+			
+			private function onNetworkStatusChange(evt:Event):void
+			{
+				textArea.text += "\nisNetworkChanged: "+ca.contextVO.isNetworkChanged.toString();
+			}
+			
+			private function onHTTPConnectivityChange(evt:Event):void 
+			{ 
+			    textArea.text += "\nisHTTPAvaliable: "+ca.contextVO.isHTTPAvaliable.toString();
+			}
+			
+			private function onSocketStatusChange(evt:Event):void
+			{
+				textArea.text += "\nisSocketMonitorAvailable: "+ca.contextVO.isSocketMonitorAvailable.toString();
+			}
+			
+			private function onWindowedApplicationMovment(evt:Event):void
+			{
+				textArea.text += "\nwindowPositionAfterBounds: "+ca.contextVO.windowPositionAfterBounds.toString();
+				textArea.text += "\nwindowPositionBeforeBounds: "+ca.contextVO.windowPositionBeforeBounds.toString();
+			}
+
+			private function showCapabilitiesClickHandler(event:MouseEvent):void
+			{
+				textArea.text += "\navHardwareDisable: "+ca.contextVO.avHardwareDisable.toString();
+				textArea.text += "\nhasAccessibility: "+ca.contextVO.hasAccessibility.toString();
+				textArea.text += "\nhasAudio: "+ca.contextVO.hasAudio.toString();
+				textArea.text += "\nhasAudioEncoder : "+ca.contextVO.hasAudioEncoder.toString();
+				textArea.text += "\nhasEmbeddedVideo: "+ca.contextVO.hasEmbeddedVideo.toString();
+				textArea.text += "\nhasMP3: "+ca.contextVO.hasMP3.toString();
+				textArea.text += "\nhasPrinting: "+ca.contextVO.hasPrinting.toString();
+				textArea.text += "\nhasScreenBroadcast: "+ca.contextVO.hasScreenBroadcast.toString();
+				textArea.text += "\nhasScreenPlayback: "+ca.contextVO.hasScreenPlayback.toString();
+				textArea.text += "\nhasStreamingAudio: "+ca.contextVO.hasStreamingAudio.toString();
+				textArea.text += "\nhasVideoEncoder: "+ca.contextVO.hasVideoEncoder.toString();
+				textArea.text += "\nisDebugger: "+ca.contextVO.isDebugger.toString();
+				textArea.text += "\nlanguage: "+ca.contextVO.language.toString();
+				textArea.text += "\nlocalFileReadDisable: "+ca.contextVO.localFileReadDisable.toString();
+				textArea.text += "\nmanufacturer: "+ca.contextVO.manufacturer.toString();
+				textArea.text += "\nos: "+ca.contextVO.os.toString();
+				textArea.text += "\nosName: "+ca.contextVO.osName.toString();
+				textArea.text += "\npixelAspectRatio: "+ca.contextVO.pixelAspectRatio.toString();
+				textArea.text += "\nplayerType: "+ca.contextVO.playerType.toString();
+				textArea.text += "\nscreenColor: "+ca.contextVO.screenColor.toString();
+				textArea.text += "\nscreenDPI: "+ca.contextVO.screenDPI.toString();
+				textArea.text += "\nscreenResolutionX: "+ca.contextVO.screenResolutionX.toString();
+				textArea.text += "\nscreenResolutionY: "+ca.contextVO.screenResolutionY.toString();
+				textArea.text += "\nserverString: "+ca.contextVO.serverString.toString();
+				textArea.text += "\nversion: "+ca.contextVO.version.toString();
+			}
+			
+			private function showSystemSupportClickHandler(event:MouseEvent):void
+			{
+				textArea.text += "\nsupportsDockIcon: "+ca.contextVO.supportsDockIcon.toString();
+				textArea.text += "\nsupportsMenu: "+ca.contextVO.supportsMenu.toString();
+				textArea.text += "\nsupportsSystemTrayIcon: "+ca.contextVO.supportsSystemTrayIcon.toString();
+				textArea.text += "\nsupportsNotification: "+ca.contextVO.supportsNotification.toString();
+				textArea.text += "\nsupportsTransparency: "+ca.contextVO.supportsTransparency.toString();
+				textArea.text += "\nsystemMaxSize: "+ca.contextVO.systemMaxSize.toString();
+				textArea.text += "\nsystemMinSize: "+ca.contextVO.systemMinSize.toString();
+			}
+    		
+    	]]>
+    </fx:Script>
+
+	<mx:VBox width="100%" height="100%" >
+		<s:TextArea id="textArea" width="100%" height="95%" />
+		
+		<mx:HBox>
+			<s:Button label="Show System Capabilities" click="showCapabilitiesClickHandler(event)" />
+			<s:Button label="Show System Support" click="showSystemSupportClickHandler(event)" />			
+		</mx:HBox>
+		
+		<mx:HBox>
+			<s:Button label="Start Tracking" click="ca.start(); textArea.text+='\nStart Tracking';" />
+			<s:Button label="Stop Tracking" click="ca.stop(); textArea.text+='\nStop Tracking';" />
+			<s:Button label="Clear TextArea" click="textArea.text=''" />			
+		</mx:HBox>		
+		
+	</mx:VBox>
+	
+</s:WindowedApplication>

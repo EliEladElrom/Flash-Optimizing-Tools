@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="1024" 
+			   initialize="setListeners()" 
+			   width="100%" height="100%">
+	
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radioGroup" />
+	</fx:Declarations>	
+	
+	<fx:Script>
+		<![CDATA[
+			import components.multiuploader.DataList;
+			
+			import mx.binding.utils.ChangeWatcher;
+			import mx.events.PropertyChangeEvent;
+			import com.elad.framework.multiuploader.vo.FileVO;
+			import mx.events.DragEvent;
+			import mx.managers.DragManager;
+			import mx.controls.Image;
+			import mx.core.DragSource;
+			import spark.events.IndexChangeEvent;
+			import com.elad.framework.multiuploader.events.FileUploaderManagerErrorEvent;
+			import com.elad.framework.multiuploader.events.FileUploaderManagerFileLoadedEvent;
+			import com.elad.framework.multiuploader.enum.FileTypeFormat;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import com.elad.framework.multiuploader.vo.PostVarVO;
+			import com.elad.framework.multiuploader.vo.PostVarsCollectionVO;
+			import com.elad.framework.multiuploader.LocalFileHelper;
+			import com.elad.framework.multiuploader.FileUploaderManager;
+			import com.elad.framework.multiuploader.events.LocalFileErrorEvent;
+			import com.elad.framework.multiuploader.events.LocalFileEvent;
+			
+			// utility class to read/write & upload local files
+			private var localFileHelper:LocalFileHelper = new LocalFileHelper( FileTypeFormat.allMediaTypes() );
+			
+			// Manager to handle uploading files
+			[Bindable]
+			private var fileUploaderManager:FileUploaderManager = FileUploaderManager.getInstance();
+			
+			//--------------------------------------------------------------------------
+			//
+			//  initialize
+			//
+			//--------------------------------------------------------------------------			
+			
+			protected function setListeners():void
+			{
+				localFileHelper.addEventListener(LocalFileEvent.FILE_LOAD_BROWSE, onFileSelect);
+				localFileHelper.addEventListener(LocalFileEvent.FILE_SAVE_BROWSE, function():void { trace("Save browse complete"); } );
+				localFileHelper.addEventListener(LocalFileEvent.FILE_SAVE_SUCCESSFULLY, function():void { trace("Save complete!"); } );
+				localFileHelper.addEventListener(LocalFileEvent.FILE_CANCEL, function():void { Alert.show("Cancel"); } );
+				localFileHelper.addEventListener(LocalFileErrorEvent.FILE_ERROR, function():void { trace("file error") } );
+				
+				ChangeWatcher.watch(fileUploaderManager.fileCollection, ["bytesLoaded"], onByteLoading);
+				ChangeWatcher.watch(fileUploaderManager.fileCollection, ["filesUploading"], onFileUploadingStatusChanged);	
+			}
+			
+			// browse for file/s
+			private function browse():void
+			{
+				localFileHelper.browse( true ); // set to false to browse single file
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Event handlers
+			//
+			//--------------------------------------------------------------------------			
+			
+			private function onFileSelect(event:LocalFileEvent):void
+			{
+				var varsCollection:PostVarsCollectionVO = new PostVarsCollectionVO();
+				//varsCollection.addItem( new PostVarVO("uploadType", "MEDIA") );
+				
+				var param:String = "&mediaType=PHOTO&uploadType=MEDIA";
+				var uploadUrl:String = "";
+				
+				uploadUrl = "http://localhost:9999/uploader.php"
+				
+				fileUploaderManager.add( varsCollection,  localFileHelper.fileReference, FileTypeFormat.allMediaTypes(), "Filedata", uploadUrl );
+				fileUploaderManager.addEventListener( FileUploaderManagerFileLoadedEvent.FILE_LOADED, addItemToList );
+				fileUploaderManager.addEventListener( FileUploaderManagerErrorEvent.UPLOAD_MANAGER_ERROR, function(e:FileUploaderManagerErrorEvent):void { e.currentTarget.removeEventListener(e.type, arguments.callee); Alert.show(e.message); } );
+			}
+			
+			private function addItemToList(event:FileUploaderManagerFileLoadedEvent):void
+			{
+				if (autoUploadCheckBox.selected)
+					this.fileUploaderManager.uploadFile( event.file );
+			}
+			
+			protected function selectedFilesChangeHandler(event:IndexChangeEvent):void
+			{
+				fileUploaderManager.fileCollection.setSelectedFiles( event.currentTarget.selectedItems );
+				
+				progressBar.label = event.currentTarget.selectedIndices.length + " files. " +
+					LocalFileHelper.formatTotalBytes( fileUploaderManager.fileCollection.getTotalBytesSelected() );
+			}
+			
+			// on byte loaded have the progress bar change
+			private function onByteLoading( event:PropertyChangeEvent ):void
+			{
+				if (progressBar.maximum == 0)
+				{
+					progressBar.visible = true;
+					progressBar.maximum = fileUploaderManager.fileCollection.getTotalBytesSelected();
+				}
+				
+				progressBar.setProgress( fileUploaderManager.fileCollection.bytesLoaded, progressBar.maximum );
+				progressBar.label = LocalFileHelper.formatTotalBytes( fileUploaderManager.fileCollection.bytesLoaded ) + " out of " + LocalFileHelper.formatTotalBytes( progressBar.maximum ) + " total";
+			}
+			
+			// once file is uploaded remove the uploader
+			private function onFileUploadingStatusChanged( event:PropertyChangeEvent ):void
+			{
+				if ( fileUploaderManager.fileCollection.isFilesUploading == false )
+				{
+					progressBar.setProgress( progressBar.maximum, progressBar.maximum );
+				}
+			}			
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Indicies management
+			//
+			//--------------------------------------------------------------------------	
+			
+			protected function selectAllClickHandler(event:MouseEvent):void
+			{
+				var len:int = list.dataProvider.length;
+				var vector:Vector.<int> = new Vector.<int>();
+				
+				for ( var i:int=0; i<len; i++ )
+				{
+					vector.push(i);
+				}
+				
+				list.selectedIndices = vector;
+			}
+			
+			protected function unselectAllClickHandler(event:MouseEvent):void
+			{
+				list.selectedIndices = new <int>[];
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Drag & Drop functionality
+			//
+			//--------------------------------------------------------------------------	
+			
+			protected function list_mouseDownHandler(event:MouseEvent):void
+			{
+				if ( event.target.hasOwnProperty("id") )
+				{
+					switch ( event.target.id )
+					{
+						case "axisButton":
+							var file:FileVO = event.target.document.data as FileVO;
+							fileUploaderManager.removeItemByName( file.fileName );
+						break;
+					}
+				}
+				
+				list.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			}
+			
+			protected function list_mouseUpHandler(event:MouseEvent):void
+			{
+				list.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			}			
+			
+			protected function onMouseMove(event:MouseEvent):void
+			{
+				trace("onMouseMove");
+				
+				var file:FileVO = null;
+				var source:Object;
+				var dragInitiator:Image = null;
+				
+				if ( event.target.hasOwnProperty("fileNameText") )
+				{
+					file = fileUploaderManager.fileCollection.getItemByName( event.target.fileNameText.text );
+					source = event.target.image.source;
+					dragInitiator = event.target.image as Image;
+				}
+				
+				try
+				{
+					if (file == null)
+					{
+						file = event.target.parent.parent.data as FileVO;
+						source = event.target.parent.parent.image.source;
+						dragInitiator = event.target.parent as Image;
+					}
+				}
+				catch (evt:Object) {
+				}
+				
+				try
+				{
+					if (file == null)
+					{
+						file = event.target.document.data as FileVO;
+						source = event.target.source;
+						dragInitiator = event.target as Image;
+					}
+				}
+				catch (evt:Object) {
+				}
+				
+				var dragSource:DragSource = new DragSource();
+				dragSource.addData(file, 'value');
+				
+				var dragProxy:Image = new Image();
+				dragProxy.width  = 50;
+				dragProxy.height = 50;
+				dragProxy.source = source;
+				
+				
+				if (dragInitiator != null && file != null)
+				{
+					DragManager.doDrag(dragInitiator, dragSource, event, dragProxy);
+					trace("start drag");
+				}
+				else
+				{
+					trace("can't drag");
+				}
+			}
+			
+			private function dragEnterHandler(event:DragEvent):void 
+			{
+				var dropTarget:Image=event.currentTarget as Image;
+				
+				if (event.dragSource.hasFormat("value")) 
+				{
+					DragManager.acceptDragDrop(dropTarget);
+				}
+			}
+			
+			private function dragDropHandler(event:DragEvent):void
+			{
+				var file:FileVO = event.dragSource.dataForFormat('value') as FileVO;
+				
+				fileUploaderManager.removeItemByName( file.fileName );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button label="Browse for files" 
+			  click="browse()" />
+	
+	<s:Button label="Upload File/s to server" 
+			  x="0" y="290"
+			  click="fileUploaderManager.uploadAllFiles()"/>
+	
+	<s:List id="list" 
+			dataProvider="{fileUploaderManager.fileCollection.collection}"
+			x="0" y="37" 
+			width="243" height="207"
+			allowMultipleSelection="true"
+			skinClass="components.multiuploader.DataList"
+			change="selectedFilesChangeHandler(event)"
+			mouseDown="list_mouseDownHandler(event)"
+			mouseUp="list_mouseUpHandler(event)"/>
+	
+	<mx:ProgressBar id="progressBar" 
+					x="0" y="320" mode="manual"
+					label=""/>
+	
+	<s:RadioButton x="9" y="260" 
+				   label="Select All"
+				   groupName="radioGroup"
+				   click="selectAllClickHandler(event)" />
+	
+	<s:RadioButton x="93" y="260" 
+				   label="Unselect all" 
+				   groupName="radioGroup"
+				   click="unselectAllClickHandler(event)"/>
+	
+	<mx:Image x="209" y="260" 
+			  source="assets/multiuploader/images/TrashIconEmpty.png"
+			  dragEnter="dragEnterHandler(event);"
+			  dragDrop="dragDropHandler(event)"
+			  width="34" height="34"/>
+	
+	<s:CheckBox id="autoUploadCheckBox" 
+				   x="160" y="290"
+				   selected="false"
+				   label="Auto Upload" />	
+	
+</s:Application>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="1024" minHeight="768"
+			   creationComplete="setObjects()" 
+			   viewSourceURL="srcview/index.html">	
+
+	<fx:Script>
+		<![CDATA[
+			import com.elad.framework.objectpoolmanager.Reusable;
+			import com.elad.framework.objectpoolmanager.ReusablePool;
+			
+			import mx.collections.ArrayCollection;
+			import mx.containers.Canvas;
+			import mx.controls.Image;
+			import mx.controls.VideoDisplay;
+			import mx.core.UIComponent;
+			
+			import net.hires.debug.Stats;
+			
+			private var reusablePool:ReusablePool = ReusablePool.getInstance();
+			private var canvas:Canvas = new Canvas;
+			
+			private function setObjects():void
+			{
+				// adding stats
+				component.addChild( new Stats() );
+				addElement(component);					
+				
+				// adding the object to the collection
+				reusablePool.setReusable( new Reusable(createUI(), "FlexImage") );
+				
+				// adding an array object
+				reusablePool.setReusable( new Reusable(createArray(), "arrayList") );
+
+				// adding video UI object
+				reusablePool.setReusable( new Reusable(createVideoUI(), "videoUI") );												
+				
+				this.addElement(canvas);
+			}
+								
+			private function useUIObject(name:String):void
+			{
+				// getting the collection
+				var reusable:Reusable = reusablePool.acquireReusable(name);
+				var component:UIComponent = reusable.object as UIComponent;
+				
+				// use the object
+				canvas.removeAllChildren();
+				canvas.addElement(component);
+				
+				// return collection back to the pool of objects
+				reusablePool.releaseReusable(reusable);
+			}
+			
+			private function useArrayObject():void
+			{
+				// getting the collection
+				var reusable:Reusable = reusablePool.acquireReusable("arrayList");
+				var dp:ArrayCollection = reusable.object as ArrayCollection;
+				
+				list.dataProvider = dp;
+				
+				// return collection back to the pool of objects
+				reusablePool.releaseReusable(reusable);
+			}
+			
+			private function noCacheArrayObject():void 
+			{
+				var dp:ArrayCollection = createArray();	
+				list.dataProvider = dp;
+			}
+			
+			private function noCacheUIObject():void
+			{							
+				canvas.removeAllChildren();
+				canvas.addElement(createUI());									
+			}
+			
+			private function noCacheVideoUIObject():void
+			{							
+				canvas.removeAllChildren();
+				canvas.addElement(createVideoUI());									
+			}	
+			
+			private function createUI():UIComponent
+			{		
+				var image : Image = new Image();
+				image.source = "http://blog.digitalbackcountry.com/wp-content/uploads/flash_builder_logo.png";
+				image.width = 400;
+				image.height = 300;
+				image.x=10;
+				image.y=300;				
+				
+				return image;
+			}
+			
+			private function createVideoUI():UIComponent
+			{			
+				var videoDisplay:VideoDisplay = new VideoDisplay();
+				videoDisplay.source = "http://kakonacl.dip.jp/PlayerTry/TestMovies/FLV/FLV4/Flash.flv";
+				videoDisplay.x = 10;
+				videoDisplay.y = 300;
+				videoDisplay.width = 300;
+				videoDisplay.height = 300;
+				
+				return videoDisplay;		
+			}
+			
+			private function createArray():ArrayCollection
+			{
+				var array:ArrayCollection = new ArrayCollection();
+				
+				for (var i:int=0; i<10000; i++)
+				{
+					array.addItem({label: i});
+				}
+				
+				return array;
+			}			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label x="10" y="10" 
+			 text="These examples shows memory usage with using the object pooling collection and without it."
+			 fontWeight="bold" height="33"/>
+	
+	<s:Label x="10" y="61" 
+			 text="Cached Object Pooling" width="200" fontWeight="bold"/>
+	
+	<s:Button x="10" y="87" 
+			  label="UIobject" 
+			  click="useUIObject('FlexImage');" width="200"/>
+			   
+	<s:Button x="10" y="117" 
+			  label="array" 
+			  click="useArrayObject();" width="200"/>			   
+
+	
+	<s:Button x="10" y="147" 
+			  label="Video UI" 
+			  click="useUIObject('videoUI');" width="200"/>
+	
+	<s:List id="list" 
+			x="325" y="79" 
+			width="126" height="200" />
+	
+	<s:Label x="10" y="178" 
+			 text="Regular objects" width="200" fontWeight="bold"/>
+	
+	<s:Button x="10" y="202" 
+			  label="UIobject" 
+			  click="noCacheUIObject();" width="200"/>
+			   
+	<s:Button x="10" y="232" 
+			  label="Array" 
+			  click="noCacheArrayObject()" width="200"/>		
+	
+	<s:Button x="10" y="262" 
+			  label="Video UI" 
+			  click="noCacheVideoUIObject()" width="200"/>
+
+	<mx:UIComponent id="component" x="237" y="83" width="70" height="100"/>	
+
+</s:Application>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="1024" minHeight="768">
+
+	<fx:Script>
+		<![CDATA[
+			import com.elad.framework.itune.LibraryParser;
+			import com.elad.framework.multiuploader.LocalFileHelper;
+			import com.elad.framework.multiuploader.enum.FileTypeFormat;
+			import com.elad.framework.multiuploader.events.LocalFileErrorEvent;
+			import com.elad.framework.multiuploader.events.LocalFileEvent;
+			import com.elad.framework.multiuploader.events.LocalFileLoadedEvent;
+			import mx.controls.Alert;
+			
+			private var localFileHelper:LocalFileHelper;
+			
+			public function browse_clickHandler(event:MouseEvent=null):void 
+			{
+				localFileHelper = new LocalFileHelper( FileTypeFormat.FILE_FILTER_XML_TYPE );
+				
+				localFileHelper.addEventListener(LocalFileEvent.FILE_LOAD_BROWSE, onFileSelect);
+				localFileHelper.addEventListener(LocalFileEvent.FILE_CANCEL, function():void { Alert.show("Cancel"); } );
+				localFileHelper.addEventListener(LocalFileErrorEvent.FILE_ERROR, function():void { trace("file error") } );
+				
+				localFileHelper.browse();
+			}
+			
+			private function onFileSelect(event:LocalFileEvent):void
+			{
+				localFileHelper.addEventListener(LocalFileLoadedEvent.DATA_LOADED, onDataLoaded );
+				localFileHelper.load();
+			}
+			
+			private function onDataLoaded(event:LocalFileLoadedEvent):void
+			{
+				try {
+					var libraryParser:LibraryParser = new LibraryParser();
+					libraryParser.parsePlaylistsFromItunesLibrary(event.byteLoaded, parserProgressCallback, onParserCompleteCallback);
+				} catch(er:Error){
+					showError();
+					return;
+				}				
+			}
+			
+			private function parserProgressCallback(value:String):void
+			{
+				trace(value);
+			}
+			
+			public function onParserCompleteCallback(playlists:Array):void
+			{
+				dg.dataProvider = playlists;
+			}
+			
+			protected function showError(error:String="", closeFunc:Function=null):void 
+			{
+				if (!error) error = "Valid iTunes library file not found. Please select a valid 'iTunes Music Library.xml' file.";
+				Alert.show(error, "iTunes Import Error", 4, null, closeFunc);
+			}			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button label="Load iTune xml library" click="browse_clickHandler(event)" />
+	<mx:DataGrid id="dg" width="500" height="500"  x="0" y="27"/>
+	
+</s:Application>
