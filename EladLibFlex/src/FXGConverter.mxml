@@ -12,7 +12,7 @@
 			{
 				var comp:Group = FXGStringConverter.convertFXGStringToComponent( textArea.text, true );
 				group.addElement( comp );
-			}			
+			}
 			
 		]]>
 	</fx:Script>

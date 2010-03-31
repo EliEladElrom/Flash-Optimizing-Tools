@@ -42,6 +42,9 @@ package com.elad.framework.utils.fxgconverter
 				case "Group":
 					retComponent = new Group();
 					break;
+				case "Grou":
+					retComponent = new Group();
+					break;				
 				case "Path":
 					retComponent = new Path();
 					break;				
@@ -72,9 +75,12 @@ package com.elad.framework.utils.fxgconverter
 				case "RichText":
 					retComponent = new RichText();
 					break;
-				case "SimpleText" || "Label":
+				case "Label":
 					retComponent = new Label();
 					break;
+				case "SimpleText":
+					retComponent = new Label();
+					break;				
 				case "LinearGradient":
 					retComponent = new LinearGradient();
 					break;				
@@ -147,7 +153,7 @@ package com.elad.framework.utils.fxgconverter
 						component[propoerty] = value;
 					}
 					catch (error:Error) {
-						trace( "WARNING: Couldn't parse property " + propoerty );
+						trace( "WARNING: Couldn't parse property " + propoerty + ", error " + error.errorID + ": " + error.message );
 					}
 				}
 			}
