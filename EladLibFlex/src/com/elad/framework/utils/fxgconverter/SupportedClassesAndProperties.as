@@ -37,61 +37,64 @@ package com.elad.framework.utils.fxgconverter
 		{
 			var retComponent:*;
 			
-			switch ( componentType )
+			// ignore
+			if ( componentType != "fil" || componentType != "strok" || componentType != "d_userLabel"
+				|| componentType != "ai_objID" || componentType != "flm_knockout" )
 			{
-				case "Group":
-					retComponent = new Group();
-					break;
-				case "Grou":
-					retComponent = new Group();
-					break;				
-				case "Path":
-					retComponent = new Path();
-					break;				
-				case "Line":
-					retComponent = new Line();
-					break;
-				case "Rect":
-					retComponent = new Rect();
-					break;				
-				case "Ellipse":
-					retComponent = new Ellipse();
-					break;
-				case "Graphic":
-					retComponent = new Graphic();
-					break;
-				case "RectangularDropShadow":
-					retComponent = new RectangularDropShadow();
-					break;
-				case "BitmapImage":
-					retComponent = new BitmapImage();
-					break;				
-				case "SolidColor":
-					retComponent = new SolidColor();
-					break;
-				case "SolidColorStroke":
-					retComponent = new SolidColorStroke();
-					break;
-				case "RichText":
-					retComponent = new RichText();
-					break;
-				case "Label":
-					retComponent = new Label();
-					break;
-				case "SimpleText":
-					retComponent = new Label();
-					break;				
-				case "LinearGradient":
-					retComponent = new LinearGradient();
-					break;				
-				case "strok" || "fil":
-					// ignore
-					break;
-				default:
-					if ( debug )
-						trace( "WARNING: FAIL: Couldn't parse component: " + componentType );
-					break;
+				switch ( componentType )
+				{
+					case "Group":
+						retComponent = new Group();
+						break;
+					case "Grou":
+						retComponent = new Group();
+						break;				
+					case "Path":
+						retComponent = new Path();
+						break;				
+					case "Line":
+						retComponent = new Line();
+						break;
+					case "Rect":
+						retComponent = new Rect();
+						break;				
+					case "Ellipse":
+						retComponent = new Ellipse();
+						break;
+					case "Graphic":
+						retComponent = new Graphic();
+						break;
+					case "RectangularDropShadow":
+						retComponent = new RectangularDropShadow();
+						break;
+					case "BitmapImage":
+						retComponent = new BitmapImage();
+						break;				
+					case "SolidColor":
+						retComponent = new SolidColor();
+						break;
+					case "SolidColorStroke":
+						retComponent = new SolidColorStroke();
+						break;
+					case "RichText":
+						retComponent = new RichText();
+						break;
+					case "Label":
+						retComponent = new Label();
+						break;
+					case "SimpleText":
+						retComponent = new Label();
+						break;				
+					case "LinearGradient":
+						retComponent = new LinearGradient();
+						break;	
+					default:
+						if ( debug )
+							trace( "WARNING: FAIL: Couldn't parse component: " + componentType );
+						break;
+				}
 			}
+			
 			
 			return retComponent;
 		}

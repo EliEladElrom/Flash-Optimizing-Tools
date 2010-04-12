@@ -42,6 +42,14 @@ package com.elad.framework.utils.fxgconverter
 			var subComList:XMLList = new XMLList( fxgXML );
 			var subSubComList:XMLList;
 			
+			if (fxgXML == null)
+			{
+				if ( debug )
+					trace("WARNING: Couldn't generate XML");	
+				
+				return new Group;
+			}			
+			
 			var parentComponent:Group = retrieveComponentFromXML( subComList[0], debug );
 			var previousComponent:* = parentComponent;
 			var subCompLen:int = 0;
@@ -87,8 +95,11 @@ package com.elad.framework.utils.fxgconverter
 		 */		
 		public static function retrieveComponentFromXML( xml:XML, debug:Boolean = false ):*
 		{
-			var currentString:String = xml.toXMLString().split(">")[0];
+			var currentString:String;
+			
+			currentString = xml.toXMLString().split(">")[0];
 			currentString = currentString.substr( 0, currentString.length-1 );
+			
 			var splitSingleComponent:Array = currentString.split( " " );
 			
 			// setting class & prop
@@ -154,27 +165,17 @@ package com.elad.framework.utils.fxgconverter
 		 */	
 		public static function convertFXGToXML( fxg:String, debug:Boolean = false ):XML
 		{
-			var newfxg:String;
-			var isStringChanged:Boolean = true;
 			var xml:XML;
+			var newfxg:String;
 			
-			while ( isStringChanged )
-			{
-				newfxg = fxg.replace("s:", "");
-				
-				if ( newfxg != fxg )
-				{
-					fxg= newfxg;
-				}
-				else
-				{
-					isStringChanged = false;
-				}
-			}
+			newfxg = replaceStringInEntireParagraph( fxg, "s:", "" );
+			newfxg = replaceStringInEntireParagraph( newfxg, "d:userLabel", "d_userLabel" );	
+			newfxg = replaceStringInEntireParagraph( newfxg, "ai:objID", "ai_objID" );
+			newfxg = replaceStringInEntireParagraph( newfxg, "flm:knockout", "flm_knockout" );
 			
 			try
 			{
-				xml = new XML( fxg );
+				xml = new XML( newfxg );
 			}
 			catch ( error:Error )
 			{
@@ -183,6 +184,34 @@ package com.elad.framework.utils.fxgconverter
 			}
 			
 			return xml;
+		}
+		
+		/**
+		 * Method to replace all the instances of a string with a new string in an entire string paragraph
+		 *  
+		 * @param str
+		 * @param p
+		 * @param repl
+		 * @return 
+		 * 
+		 */		
+		public static function replaceStringInEntireParagraph(str:String, p:*, repl:*):String
+		{
+			var isStringChanged:Boolean = true;
+			var newfxg:String;
+			
+			while ( isStringChanged )
+			{
+				newfxg = str.replace(p, repl);
+				
+				if ( newfxg != str )
+					str= newfxg;
+				else
+					isStringChanged = false;
+				
+			}
+			
+			return newfxg;
 		}
 	}
 }
