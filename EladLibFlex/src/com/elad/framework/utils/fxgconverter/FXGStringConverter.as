@@ -172,6 +172,8 @@ package com.elad.framework.utils.fxgconverter
 			newfxg = replaceStringInEntireParagraph( newfxg, "d:userLabel", "d_userLabel" );	
 			newfxg = replaceStringInEntireParagraph( newfxg, "ai:objID", "ai_objID" );
 			newfxg = replaceStringInEntireParagraph( newfxg, "flm:knockout", "flm_knockout" );
+			newfxg = replaceStringInEntireParagraph( newfxg, "d:id", "d_id" );
+			newfxg = replaceStringInEntireParagraph( newfxg, "flm:variant", "flm_variant" );
 			
 			try
 			{

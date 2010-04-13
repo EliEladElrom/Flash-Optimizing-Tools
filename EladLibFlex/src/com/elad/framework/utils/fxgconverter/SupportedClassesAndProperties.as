@@ -39,7 +39,8 @@ package com.elad.framework.utils.fxgconverter
 			
 			// ignore
 			if ( componentType != "fil" || componentType != "strok" || componentType != "d_userLabel"
-				|| componentType != "ai_objID" || componentType != "flm_knockout" )
+				|| componentType != "ai_objID" || componentType != "flm_knockout" || componentType != "d_id" 
+				|| componentType != "flm_variant" )
 			{
 				switch ( componentType )
 				{
