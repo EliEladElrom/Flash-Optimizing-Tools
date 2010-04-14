@@ -2,11 +2,14 @@ package com.elad.framework.utils.fxgconverter
 {
 	import flash.utils.getQualifiedClassName;
 	
+	import mx.graphics.GradientEntry;
+	import mx.graphics.LinearGradient;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 	import mx.utils.StringUtil;
 	
 	import spark.components.Group;
+	import spark.primitives.Path;
 
 	/**
 	 * A Utility class to convert FXG string during runtime to component code.
@@ -78,11 +81,44 @@ package com.elad.framework.utils.fxgconverter
 				for (var ii:int = 0; ii < subSubCompLen; ii++)
 				{
 					component = retrieveComponentFromXML( subSubComList[ii], debug );
+					
+					// Use case for gradients
+					if ( component is LinearGradient )
+						(component as LinearGradient).entries = getGradients( subComList[i].children().children().children(), debug );;
+					
 					addChildToComponent( component, previousComponent, debug );
 				}
 			}
 			
 			return parentComponent;
+		}
+		
+		/**
+		 * Retrive component's gradients
+		 *  
+		 * @param xml
+		 * @param debug
+		 * @return 
+		 * 
+		 */		
+		public static function getGradients( xml:XMLList, debug:Boolean ):Array
+		{
+			var componentChild:*;
+			var subSubSubCompLen:int = 0;
+			var subSubSubComList:XMLList;
+			
+			// check sub-sub-sub components
+			subSubSubComList = new XMLList( xml );
+			subSubSubCompLen = subSubSubComList.length();
+			var gradients:Array = [];
+			
+			for (var i:int = 0; i < subSubSubCompLen; i++)
+			{
+				componentChild = retrieveComponentFromXML( subSubSubComList[i], debug );
+				gradients.push( componentChild );
+			}
+			
+			return gradients;
 		}
 		
 		/**
@@ -127,31 +163,55 @@ package com.elad.framework.utils.fxgconverter
 		 */		
 		public static function addChildToComponent( child:*, previousComponent:*, debug:Boolean = false ):Boolean
 		{
-			var isUIComponent:Boolean = false;
+			var isUIComponent:Boolean = true;
+			var message:String = "Adding: ";
 			
 			if ( child == null )
 			{
 				return false;
 			}
 			
-			if ( child is SolidColor )
+			if ( child is SolidColor || ( child is LinearGradient && previousComponent is Path ) )
 			{
 				previousComponent.fill = child;
 				isUIComponent = false;
+				
+				if ( debug )
+					message = "Adding fill: " ;		
 			}
-			else if ( child is SolidColorStroke )
+
+			if ( child is SolidColorStroke )
 			{
 				previousComponent.stroke = child;
 				isUIComponent = false;
+				
+				if ( debug )
+					message = "Adding stroke: ";					
 			}
-			else
+
+			if ( previousComponent is LinearGradient && child is GradientEntry )
 			{
-				previousComponent.addElement( child );
-				isUIComponent = true;
-			}	
+				( previousComponent as LinearGradient ).entries.push( child );
+				isUIComponent = false;
+				
+				if ( debug )
+					message = "Adding entries: ";			
+			}
+
+			if ( isUIComponent )
+			{
+				try {
+					previousComponent.addElement( child );
+					isUIComponent = true;				
+				}
+				catch (error:Error)
+				{
+					trace( "FAIL: Couldn't add child: " + error.message );
+				}
+			}
 			
 			if ( debug )
-				trace( "Adding: " + getQualifiedClassName( child ) + " to: " + getQualifiedClassName( previousComponent ) );
+				trace( message + getQualifiedClassName( child ) + " to: " + getQualifiedClassName( previousComponent ) );
 			
 			return isUIComponent;
 		}

@@ -1,6 +1,7 @@
 package com.elad.framework.utils.fxgconverter
 {
 	import mx.controls.Label;
+	import mx.graphics.GradientEntry;
 	import mx.graphics.LinearGradient;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
@@ -38,12 +39,13 @@ package com.elad.framework.utils.fxgconverter
 			var retComponent:*;
 			
 			// ignore
-			if ( componentType != "fil" || componentType != "strok" || componentType != "d_userLabel"
-				|| componentType != "ai_objID" || componentType != "flm_knockout" || componentType != "d_id" 
-				|| componentType != "flm_variant" )
+			if ( componentType != "fil" && componentType != "strok" )
 			{
 				switch ( componentType )
 				{
+					case "GradientEntry":
+					retComponent = new GradientEntry();
+					break;					
 					case "Group":
 						retComponent = new Group();
 						break;
@@ -88,10 +90,10 @@ package com.elad.framework.utils.fxgconverter
 						break;				
 					case "LinearGradient":
 						retComponent = new LinearGradient();
-						break;	
+						break;
 					default:
 						if ( debug )
-							trace( "WARNING: FAIL: Couldn't parse component: " + componentType );
+							trace( "FAIL: missing component, couldn't parse component: " + componentType );
 						break;
 				}
 			}
@@ -140,26 +142,32 @@ package com.elad.framework.utils.fxgconverter
 					}
 				}
 				
-				// use case for color
-				if ( propoerty == "color" )
-					value = value.replace("#", "0x");
+				// properties to ignore
+				if ( propoerty != "d_userLabel" && propoerty != "ai_objID" && propoerty != "flm_knockout" && propoerty != "d_id" 
+					&& propoerty != "flm_variant")
+				{
+					// use case for color
+					if ( propoerty == "color" )
+						value = value.replace("#", "0x");
+					
+					// css properties
+					if ( propoerty == "fontWeight" || propoerty == "fontSize" || propoerty == "tabStops" || 
+						propoerty == "textDecoration" || propoerty == "fontFamily" || propoerty == "textDecoration"
+						|| ( propoerty == "color" && (component is RichText || component is Label) ) )
+					{
+						component.setStyle( propoerty, value );					
+					}
+					else // properties
+					{
+						try {
+							component[propoerty] = value;
+						}
+						catch (error:Error) {
+							trace( "WARNING: Couldn't parse property " + propoerty + ", error " + error.errorID + ": " + error.message );
+						}
+					}
+				}
 				
-				// css properties
-				if ( propoerty == "fontWeight" || propoerty == "fontSize" || propoerty == "tabStops" || 
-					propoerty == "textDecoration" || propoerty == "fontFamily" || propoerty == "textDecoration"
-					|| ( propoerty == "color" && (component is RichText || component is Label) ) )
-				{
-					component.setStyle( propoerty, value );					
-				}
-				else // properties
-				{
-					try {
-						component[propoerty] = value;
-					}
-					catch (error:Error) {
-						trace( "WARNING: Couldn't parse property " + propoerty + ", error " + error.errorID + ": " + error.message );
-					}
-				}
 			}
 			
 			return component;
