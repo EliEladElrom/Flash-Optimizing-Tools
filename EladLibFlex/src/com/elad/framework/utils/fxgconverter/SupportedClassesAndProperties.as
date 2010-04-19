@@ -3,6 +3,7 @@ package com.elad.framework.utils.fxgconverter
 	import mx.controls.Label;
 	import mx.graphics.GradientEntry;
 	import mx.graphics.LinearGradient;
+	import mx.graphics.RadialGradient;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 	
@@ -45,7 +46,7 @@ package com.elad.framework.utils.fxgconverter
 				{
 					case "GradientEntry":
 					retComponent = new GradientEntry();
-					break;					
+					break;
 					case "Group":
 						retComponent = new Group();
 						break;
@@ -91,6 +92,9 @@ package com.elad.framework.utils.fxgconverter
 					case "LinearGradient":
 						retComponent = new LinearGradient();
 						break;
+					case "RadialGradient":
+						retComponent = new RadialGradient();
+						break;					
 					default:
 						if ( debug )
 							trace( "FAIL: missing component, couldn't parse component: " + componentType );
