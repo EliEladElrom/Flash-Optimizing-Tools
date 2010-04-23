@@ -10,8 +10,8 @@
   </compiler>
   <applications>
     <application path="FXGConverter.mxml"/>
+    <application path="TestTwitterClient.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
-

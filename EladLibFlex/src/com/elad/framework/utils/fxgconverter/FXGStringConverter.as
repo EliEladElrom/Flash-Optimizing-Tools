@@ -1,3 +1,17 @@
+/* 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Elad Elrom (elad@elromdesign.com)
+//  Copyright 2010 Elorm LLC,
+//  All Rights Reserved.
+//
+//  NOTICE: Elad Elrom permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+*/
 package com.elad.framework.utils.fxgconverter
 {
 	import flash.utils.getQualifiedClassName;

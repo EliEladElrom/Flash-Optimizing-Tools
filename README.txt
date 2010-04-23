@@ -1,6 +1,6 @@
 eladlib
 
-This collection is Elad Elrom’s private library of Adobe Action Script 3.0 APIs for Adobe Flex and AIR. These are some of the APIs and experiments that Elad Elrom developed over the years on his spare time and decided to share with the Adobe’s community. The APIs are split into two projects since some APIs are for Adobe AIR and some are for Adobe Flex. The libraries includes the following APIs:
+This collection is Elad Elrom's private library of Adobe Action Script 3.0 APIs for Adobe Flex and AIR. These are some of the APIs and experiments that Elad Elrom developed over the years on his spare time and decided to share with the Flash community. The APIs are split into two projects since some APIs are for Adobe AIR and some are for Adobe Flex. The libraries includes the following APIs:
 
 EladLibFlex
 
@@ -13,10 +13,11 @@ EladLibFlex
    7. Music Player API
    8. Flash 10 Utility to help read/write files
    9. YouTube implementation
-  10. SQL Statments Manager
+  10. SQL Statements Manager
   11. TurboBinding MetaData
   12. iTune xml library parser
   13. FXG String Converter during runtime
+  14. Twitter Client
 
 EladLibAIR
 
