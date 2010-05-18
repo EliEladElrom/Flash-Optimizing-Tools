@@ -27,6 +27,7 @@ package com.elad.twitter
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	import mx.utils.Base64Encoder;
+	import mx.utils.ObjectProxy;
     
 	/**
 	 *  Success custom event
@@ -65,10 +66,16 @@ package com.elad.twitter
 		private var service:HTTPService;
 		
 		/**
+		 *  Holds user's information 
+		 */		
+		private var user:ObjectProxy;
+		
+		/**
 		 * Holds the constants with the URLs 
 		 */		
 		public static const SEARCH_URL:String = "http://search.twitter.com/search.json";
-		public static const VERIFY_CREDENTIALS_URL:String = "http://twitter.com/account/verify_credentials.xml"
+		public static const VERIFY_CREDENTIALS_URL:String = "http://twitter.com/account/verify_credentials.xml";
+		public static const STATUS_URL:String = "http://twitter.com/statuses/update.xml"
 		 
 		//--------------------------------------------------------------------------
 		//
@@ -100,7 +107,7 @@ package com.elad.twitter
 		   service.send( object );
 	   }
 	   
-	   public function retrieveRetrieveUserInformation(username:String, password:String, url:String = VERIFY_CREDENTIALS_URL ):void
+	   public function retrieveRetrieveUserInformation( username:String, password:String, url:String = VERIFY_CREDENTIALS_URL ):void
 	   {
 		   service = new HTTPService();
 		   service.url = url;
@@ -112,9 +119,24 @@ package com.elad.twitter
 		   var encoder:Base64Encoder = new Base64Encoder();
 		   encoder.encode(username+":"+password);
 		   
-		   service.headers = {Authorization:"Basic " + encoder.toString()};                                                
+		   service.headers = {Authorization:"Basic " + encoder.toString()};
 		   service.send();
 	   }
+	   
+	   public function updateStatus( status:String, url:String = STATUS_URL ):void
+	   {
+		   service = new HTTPService();
+		   service.url = url;
+		   service.method = "POST";
+		   service.resultFormat = "text";
+		   
+		   service.addEventListener( FaultEvent.FAULT, onUpdateTweetsFaultHandler );
+		   service.addEventListener( ResultEvent.RESULT, onUpdateResultsHandler );
+		   
+		   var object:Object = new Object();
+		   object.status = status;
+		   service.send( object );
+	   }	   
 	   
 	   //--------------------------------------------------------------------------
 	   //
@@ -122,6 +144,31 @@ package com.elad.twitter
 	   //
 	   //--------------------------------------------------------------------------
 
+	   /**
+		* Method to handle the result event 
+		* 
+		* @param event
+		* 
+		*/	   
+	   private function onUpdateTweetsFaultHandler(event:FaultEvent):void
+	   {
+		   service.removeEventListener( FaultEvent.FAULT, onUpdateTweetsFaultHandler );
+		   service.removeEventListener( ResultEvent.RESULT, onUpdateResultsHandler );
+	   }
+	   
+	   /**
+		* Method to handle the fault event 
+		* 
+		* @param event
+		* 
+		*/	   
+	   private function onUpdateResultsHandler(event:ResultEvent):void
+	   {
+		   service.removeEventListener( FaultEvent.FAULT, onUpdateTweetsFaultHandler );
+		   service.removeEventListener( ResultEvent.RESULT, onUpdateResultsHandler );
+	   }	   
+	   
+	   
 	   /**
 	    * Method to handle the result event of verifing user's information 
 		 * 
@@ -133,7 +180,8 @@ package com.elad.twitter
 		   service.removeEventListener( FaultEvent.FAULT, onRetrieveUserTweetsFaultHandler );
 		   service.removeEventListener( ResultEvent.RESULT, onRetrieveUserResultsHandler );
 		   
-		   this.dispatchEvent( new TwitterHelperUserSuccessEvent() );
+		   user = event.result.user;
+		   this.dispatchEvent( new TwitterHelperUserSuccessEvent(user) );
 	   }
 	   
 	   /**
