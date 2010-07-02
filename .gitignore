@@ -1,0 +1,7 @@
+bin-debug/*/
+.DS_Store
+.actionScriptProperties
+.flexProperties
+.fxpProperties
+.project
+src/com/gskinner/*/

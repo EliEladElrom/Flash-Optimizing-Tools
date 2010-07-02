@@ -1,0 +1,36 @@
+<project name="ASDoc build" default="main" >
+	<!-- make sure that flexTasks.jar which is located in skd/ant/lib/flexTasks.jar otherwise you'll get an error message -->
+	<taskdef resource="flexTasks.tasks" classpath="flexTasks.jar" />
+	<!-- defines all values for the ASDoc compiler -->
+<property file="asdoc.properties" />
+    <!-- main target: cleans and compiles ASDocs -->
+    <target name="main" depends="clean-asdoc-directory, create-docs, clean-swc-directory, swc-generator" />
+    <!-- deletes and recreates the asdoc directory -->
+    <target name="clean-asdoc-directory" >
+       <delete dir="${output.dir}" />
+       <mkdir  dir="${output.dir}" />
+    </target>
+    <!-- deletes and recreates the swc directory -->
+    <target name="clean-swc-directory" >
+       <delete dir="${swc.dir}" />
+       <mkdir  dir="${swc.dir}" />
+    </target>
+    <!-- runs the asdoc.exe compiler on the source -->
+    <target name="create-docs" >
+        <exec executable="${asdoc.exe}" failonerror="true" >
+        	<arg line="-external-library-path='${libpath}/'" />
+            <arg line="-doc-sources ${doc.src}" />
+            <arg line="-output ${output.dir}" />
+        </exec>
+    	<echo>ASDOC created successfully</echo>
+    </target>
+	 <!-- generate the swc -->
+	<target name="swc-generator" description="Compile the SWC file">
+		<compc output="${swc.dir}/${swcfilename}">
+			<include-libraries file="${libpath}/" />
+			<!-- include our Class packages into the build (com folder) -->
+			<include-sources dir="${doc.dir}/src/com" includes="*" />
+		</compc>
+		<echo>SWC created successfully</echo>
+	</target>
+</project>
