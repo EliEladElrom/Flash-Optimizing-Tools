@@ -31,8 +31,24 @@ package com.elad.optimize.framerate
 	import flash.utils.Dictionary;
 	
 	/**
-	 * <p>API to help optimize memory usage by switching the swf framerate per seconds (fps) based on weather the user have 
-	 * left the screen or not.  The API is lightweight and can be used on an a pure AS3 projects as well as Flex projects. </p>
+	 * <p>One of the most effective and easy ways to optimize your Flash application is controlling the player's 
+	 * frame rate per second (fps)</p>
+	 * 
+	 * <p>Consider the following.  A user has a browser open with 5-10 tabs and each tab has about 2-3 swfs.  
+	 * Ideally, when you don't use a swf it will reduce the memory footprint.  How about few AIR apps and web 
+	 * browsers all running at the same time?</p>
+	 * 
+	 * The idea is to have one utility class to help you control and adjust your fps and take into account 
+	 * the following:
+	 * 
+	 * <ul>
+	 * 		<li>Reducing fps when your app is inactive</li>
+	 * 		<li>Increase the fps once the app is active again</li>
+	 * 		<li>Increase fps while animation is playing to create a more smooth experience and keeping a stack of all the animations being played to know when we can drop the fps.</li>
+	 * 		<li>Provide a cross platform API  (Pure AS3, Flex, AIR)</li>
+ 	 * </ul>
+ 	 * 
+	 * For more information visit: http://elromdesign.com/blog
 	 * 
 	 * @Example	Here is an example for pure AS3 project.
 	 * 
@@ -63,7 +79,7 @@ package com.elad.optimize.framerate
 		private var main:*;
 		
 		/**
-		 * Weather this is an AIR project or not 
+		 * whether this is an AIR project or not 
 		 */		
 		private var isAIR:Boolean;
 		
@@ -94,12 +110,12 @@ package com.elad.optimize.framerate
 		public static var ANIMATION_FRAME_RATE:int;
 		
 		/**
-		 * Holds weather the API is in debug mode and should show messages
+		 * Holds whether the API is in debug mode and should show messages
 		 */		
 		private var isDebugMode:Boolean;
 		
 		/**
-		 * Holds weather the app is in sleep mode or not
+		 * Holds whether the app is in sleep mode or not
 		 */		
 		private var _isSleepMode:Boolean = false;
 		public function get isSleepMode():Boolean
@@ -117,10 +133,23 @@ package com.elad.optimize.framerate
 		private var animationsNamesMap:Dictionary;		
 
 		/**
-		 * Default constructor allow passing the configuration params that will be used in the API. 
+		 * <p>Default constructor allows passing the configuration params that will be used in the API.  For instance, 
+		 * setting whether it is debug mode and we will have trace statements indicating the fps, 
+		 * flag whether it's an AIR app, the active, animation and sleep fps and call back method.</p> 
+		 * 
+		 * <p>Notice that the main application is being passed instead since Flex, AIR and pure AS 3 holds 
+		 * the main application differently.  
+		 * 
+		 * <ul>
+		 * 		<li>Flex 4 holds the main app here: <code>FlexGlobals.topLevelApplication</code></li>
+		 * 		<li>Pure AS 3 holds the main app as the Sprite so it's <code>this</code></li>
+		 * 		<li>AIR holds the main app here: <code>this</code> when called from the main window.</li>
+		 * </ul>
+		 * 
+		 * </p>
 		 * 
 		 * @param main	swf container
-		 * @param isDebugMode	weather the app is in debug mode or not
+		 * @param isDebugMode	whether the app is in debug mode or not
 		 * @param sleepFramerate	the fps for sleep mode
 		 * @param activeFramerate	the fps for active mode
 		 * @param sleepModeCallback	method that will be called once the user is going into sleep mode
@@ -161,7 +190,9 @@ package com.elad.optimize.framerate
 		}
 		
 		/**
-		 * Method to set the frame rate
+		 * <p>The setFrameRate method sets the frame rate on the main window.  
+		 * In case the user is in debug mode we want to displace trace statement in 
+		 * the console to show the change.</p>
 		 * 
 		 * @param framerate
 		 * 
@@ -175,9 +206,16 @@ package com.elad.optimize.framerate
 		}
 		
 		/**
-		 * handles out of screen mouse event
+		 * Once the app goes into sleep mode the <code>sleepModeHandler</code> method is called and allows us to 
+		 * handle a few cases.  In case this is a Flex/Pure AS app, the sleep mode gets dispatched 
+		 * from mouse event so we want to check whether there is a related object assign.  
+		 * In case there isn't any related object assign, we know that the user has left the stage.
 		 * 
-		 * @param event
+		 * We then want to set an event to listen to when the user is back.  
+		 * AIR needs the <code>ACTIVATE</code> event constant name, while Flex/AS3 needs the <code>MOUSE_MOVE</code>
+		 * constant. 
+		 * 
+		 * @param event wild card since the event may be <code>MouseEvent</code> or <code>Event</code>
 		 * 
 		 */		
 		private function sleepModeHandler(event:*):void
@@ -205,9 +243,13 @@ package com.elad.optimize.framerate
 		}
 		
 		/**
-		 * handles mouse move event
+		 * <p>Once the app is in sleep mode it will wait for the event that indicates that the app is active 
+		 * again and will call <code>activeModeHandler</code>.  In case this is an AIR app it will wait for the app 
+		 * to go into sleep mode again using Event.DEACTIVATE constant otherwise we will be using 
+		 * the <code>MouseEvent.MOUSE_OUT</code> event constant.  We are also going to dispatch the call back 
+		 * function in case it was set.</p>
 		 * 
-		 * @param event
+		 * @param event	wild card since the event may be <code>MouseEvent</code> or <code>Event</code>
 		 * 
 		 */		
 		private function activeModeHandler(event:*):void
@@ -231,7 +273,9 @@ package com.elad.optimize.framerate
 		}
 		
 		/**
-		 * Move fps to animation mode with higher fps
+		 * <p>Once we are running an animation we may want to run it in a higher fps for a better user experience.  
+		 * The API by default set the fps for animation at 50 fps, but you can specify that when you set the constructer.  
+		 * Notice that we are using a dictionary to hold the key names for easy access.</p>
 		 *  
 		 * @param animationNameKey	register the animation key so it will be possible to keep track of animations
 		 * 
@@ -239,12 +283,13 @@ package com.elad.optimize.framerate
 		public function animate( animationNameKey:String ):void
 		{
 			animationsNamesMap[animationNameKey] = animationNameKey;
-			
 			setFrameRate( ANIMATION_FRAME_RATE );
 		}
 		
 		/**
-		 * Method to clean an animation 
+		 * <p>Method to clean an animation.  Once an animation is complete, we will delete the key from the 
+		 * dictionary and in case there isn't any keys (meaning no more animation to consider) 
+		 * we will set the stage frame rate to active mode. </p>
 		 *  
 		 * @param animationNameKey
 		 * 
@@ -254,15 +299,15 @@ package com.elad.optimize.framerate
 			delete animationsNamesMap[animationNameKey];
 			
 			for (var key:* in animationsNamesMap)
-			{
 				return;
-			}
 			
 			setFrameRate( ACTIVE_MODE_FRAME_RATE );
 		}
 		
 		/**
-		 * Method to remove all animations names from the map
+		 * <p><code>clearAllAnimationKeys</code> method is used to remove all animation names from the dictionary. 
+		 * So in case we want to start over or ensure the collection 
+		 * of names is empty we can use this method.</p>
 		 *  
 		 * @param useWeakReference
 		 * 
@@ -273,7 +318,7 @@ package com.elad.optimize.framerate
 		}
 		
 		/**
-		 * Method to show the current frameRate
+		 * The frameRate getter allows us to get the current fps in our application.
 		 * 
 		 * @return 
 		 * 

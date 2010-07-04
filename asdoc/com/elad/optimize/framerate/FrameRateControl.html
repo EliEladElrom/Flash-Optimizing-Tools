@@ -11,37 +11,43 @@
 					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("FrameRateControl"); titleBar_setSubNav(false,true,false,false,false,false,false,false,true,false,false	,false,false,false,false,false);}	
 				-->
 			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">com.elad.optimize.framerate</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  FrameRateControl</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">FrameRateControl  <img src="../../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
-	              <p>API to help optimize memory usage by switching the swf framerate per seconds (fps) based on weather the user have 
-	 left the screen or not.  The API is lightweight and can be used on an a pure AS3 projects as well as Flex projects. </p>
+	              <p>One of the most effective and easy ways to optimize your Flash application is controlling the player's 
+	 frame rate per second (fps)</p>
 	 
-	           <p></p><br/><hr></div><a name="propertySummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Properties</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProperty"><tr><th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#activeModeCallback" class="signatureLink">activeModeCallback</a> : Function<div class="summaryTableDescription">
+	              <p>Consider the following.  A user has a browser open with 5-10 tabs and each tab has about 2-3 swfs.  
+	 Ideally, when you don't use a swf it will reduce the memory footprint.  How about few AIR apps and web 
+	 browsers all running at the same time?</p>
+	 
+	 The idea is to have one utility class to help you control and adjust your fps and take into account 
+	 the following:
+	 
+	 <ul>
+	 		              <li>Reducing fps when your app is inactive</li>
+	 		              <li>Increase the fps once the app is active again</li>
+	 		              <li>Increase fps while animation is playing to create a more smooth experience and keeping a stack of all the animations being played to know when we can drop the fps.</li>
+	 		              <li>Provide a cross platform API</li>
+ 	             </ul>
+ 	 
+	 For more information visit: http://elromdesign.com/blog
+	 
+	 <p></p><br/><hr></div><a name="propertySummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Properties</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProperty"><tr><th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#activeModeCallback" class="signatureLink">activeModeCallback</a> : Function<div class="summaryTableDescription">
 		 Holds the active mode callback function
 		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#ACTIVE_MODE_FRAME_RATE" class="signatureLink">ACTIVE_MODE_FRAME_RATE</a> : int<div class="summaryTableDescription">[static] 
 		 Holds the value for the active mode frame rate
 		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#ANIMATION_FRAME_RATE" class="signatureLink">ANIMATION_FRAME_RATE</a> : int<div class="summaryTableDescription">[static] 
 		 Holds the framerate value when there is animation 
 		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#frameRate" class="signatureLink">frameRate</a> : int<div class="summaryTableDescription">[read-only] 
-		 Method to show the current frameRate
-		 
-		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#isSleepMode" class="signatureLink">isSleepMode</a> : Boolean<div class="summaryTableDescription"></div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#sleepModeCallback" class="signatureLink">sleepModeCallback</a> : Function<div class="summaryTableDescription">
+		 The frameRate getter allows us to get the current fps in our application.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#isSleepMode" class="signatureLink">isSleepMode</a> : Boolean<div class="summaryTableDescription"></div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#sleepModeCallback" class="signatureLink">sleepModeCallback</a> : Function<div class="summaryTableDescription">
 		 Holds the sleep mode callback function
 		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#SLEEP_MODE_FRAME_RATE" class="signatureLink">SLEEP_MODE_FRAME_RATE</a> : int<div class="summaryTableDescription">[static] 
 		 Holds the value of the sleep mode frame rate
 		 this value is not recommended to be less than 3 fps
 		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr></table></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#FrameRateControl()" class="signatureLink">FrameRateControl</a>(main:*, isDebugMode:Boolean = false, isAIR:Boolean = false, sleepFramerate:int = 4, activeFramerate:int = 25, animationFramerate:int = 50, sleepModeCallback:Function = null, activeModeCallback:Function = null)</div><div class="summaryTableDescription">
-		 Default constructor allow passing the configuration params that will be used in the API.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#animate()" class="signatureLink">animate</a>(animationNameKey:String):void</div><div class="summaryTableDescription">
-		 Move fps to animation mode with higher fps
-		  
-		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#clearAllAnimationKeys()" class="signatureLink">clearAllAnimationKeys</a>(useWeakReference:Boolean = true):void</div><div class="summaryTableDescription">
-		 Method to remove all animations names from the map
-		  
-		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#clearAnimation()" class="signatureLink">clearAnimation</a>(animationNameKey:String):void</div><div class="summaryTableDescription">
-		 Method to clean an animation 
-		  
-		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setFrameRate()" class="signatureLink">setFrameRate</a>(framerate:int):void</div><div class="summaryTableDescription">
-		 Method to set the frame rate
-		 
-		 </div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr></table></div><script language="javascript" type="text/javascript"><!--
+		 Default constructor allows passing the configuration params that will be used in the API.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#animate()" class="signatureLink">animate</a>(animationNameKey:String):void</div><div class="summaryTableDescription">
+		 Once we are running an animation we may want to run it in a higher fps for a better user experience.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#clearAllAnimationKeys()" class="signatureLink">clearAllAnimationKeys</a>(useWeakReference:Boolean = true):void</div><div class="summaryTableDescription">
+		 clearAllAnimationKeys method is used to remove all animation names from the dictionary.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#clearAnimation()" class="signatureLink">clearAnimation</a>(animationNameKey:String):void</div><div class="summaryTableDescription">
+		 Method to clean an animation.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setFrameRate()" class="signatureLink">setFrameRate</a>(framerate:int):void</div><div class="summaryTableDescription">
+		 The setFrameRate method sets the frame rate on the main window.</div></td><td class="summaryTableOwnerCol">FrameRateControl</td></tr></table></div><script language="javascript" type="text/javascript"><!--
 										showHideInherited();
 										--></script><div class="MainContent"><div class="detailSectionHeader">Property Detail</div><a name="propertyDetail"></a><a name="ACTIVE_MODE_FRAME_RATE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ACTIVE_MODE_FRAME_RATE</td><td class="detailHeaderType">property</td></tr></table><div class="detailBody"><code>public static var ACTIVE_MODE_FRAME_RATE:int</code><p></p><p></p><p>
 		 Holds the value for the active mode frame rate
@@ -50,7 +56,7 @@
 		 </p></div><a name="propertyDetail"></a><a name="ANIMATION_FRAME_RATE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ANIMATION_FRAME_RATE</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static var ANIMATION_FRAME_RATE:int</code><p></p><p></p><p>
 		 Holds the framerate value when there is animation 
 		 </p></div><a name="propertyDetail"></a><a name="frameRate"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">frameRate</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>frameRate:int</code>&nbsp;&nbsp;[read-only] <p></p><p></p><p>
-		 Method to show the current frameRate
+		 The frameRate getter allows us to get the current fps in our application.
 		 
 		 </p><br/><span class="label"> Implementation </span><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function get frameRate():int</code><br/></div><a name="propertyDetail"></a><a name="isSleepMode"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">isSleepMode</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>isSleepMode:Boolean</code><p></p><br/><span class="label"> Implementation </span><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function get isSleepMode():Boolean</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function set isSleepMode(value:Boolean):void</code><br/></div><a name="propertyDetail"></a><a name="SLEEP_MODE_FRAME_RATE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">SLEEP_MODE_FRAME_RATE</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static var SLEEP_MODE_FRAME_RATE:int</code><p></p><p></p><p>
 		 Holds the value of the sleep mode frame rate
@@ -58,27 +64,48 @@
 		 </p></div><a name="propertyDetail"></a><a name="sleepModeCallback"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">sleepModeCallback</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public var sleepModeCallback:Function</code><p></p><p></p><p>
 		 Holds the sleep mode callback function
 		 </p></div><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="FrameRateControl()"></a><a name="FrameRateControl(any,Boolean,Boolean,int,int,int,Function,Function)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">FrameRateControl</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function FrameRateControl(main:*, isDebugMode:Boolean = false, isAIR:Boolean = false, sleepFramerate:int = 4, activeFramerate:int = 25, animationFramerate:int = 50, sleepModeCallback:Function = null, activeModeCallback:Function = null)</code><p></p><p>
-		 Default constructor allow passing the configuration params that will be used in the API. 
+		 <p>Default constructor allows passing the configuration params that will be used in the API.  For instance, 
+		 setting whether it is debug mode and we will have trace statements indicating the fps, 
+		 flag whether it's an AIR app, the active, animation and sleep fps and call back method.</p> 
+		 
+		 <p>Notice that the main application is being passed instead since Flex, AIR and pure AS 3 holds 
+		 the main application differently.  
+		 
+		 <ul>
+		 		<li>Flex 4 holds the main app here: <code>FlexGlobals.topLevelApplication</code></li>
+		 		<li>Pure AS 3 holds the main app as the Sprite so it's <code>this</code></li>
+		 		<li>AIR holds the main app here: <code>this</code> when called from the main window.</li>
+		 </ul>
+		 
+		 </p>
 		 
 		 </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">main</span>:*</code> &mdash; swf container
-		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">isDebugMode</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash; weather the app is in debug mode or not
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">isDebugMode</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash; whether the app is in debug mode or not
 		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">isAIR</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash; the fps for sleep mode
 		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">sleepFramerate</span>:int</code> (default = <code>4</code>)<code></code> &mdash; the fps for active mode
 		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">activeFramerate</span>:int</code> (default = <code>25</code>)<code></code> &mdash; method that will be called once the user is going into sleep mode
 		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">animationFramerate</span>:int</code> (default = <code>50</code>)<code></code> &mdash; method that will be called once the user is active again
 		 
 		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">sleepModeCallback</span>:Function</code> (default = <code>null</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">activeModeCallback</span>:Function</code> (default = <code>null</code>)<code></code></td></tr></table></div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="animate()"></a><a name="animate(String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">animate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public function animate(animationNameKey:String):void</code><p></p><p></p><p>
-		 Move fps to animation mode with higher fps
+		 <p>Once we are running an animation we may want to run it in a higher fps for a better user experience.  
+		 The API by default set the fps for animation at 50 fps, but you can specify that when you set the constructer.  
+		 Notice that we are using a dictionary to hold the key names for easy access.</p>
 		  
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">animationNameKey</span>:String</code> &mdash; register the animation key so it will be possible to keep track of animations
 		 
 		 </td></tr></table></p></div><a name="clearAllAnimationKeys()"></a><a name="clearAllAnimationKeys(Boolean)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">clearAllAnimationKeys</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function clearAllAnimationKeys(useWeakReference:Boolean = true):void</code><p></p><p></p><p>
-		 Method to remove all animations names from the map
+		 <p><code>clearAllAnimationKeys</code> method is used to remove all animation names from the dictionary. 
+		 So in case we want to start over or ensure the collection 
+		 of names is empty we can use this method.</p>
 		  
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">useWeakReference</span>:Boolean</code> (default = <code>true</code>)<code></code></td></tr></table></p></div><a name="clearAnimation()"></a><a name="clearAnimation(String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">clearAnimation</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function clearAnimation(animationNameKey:String):void</code><p></p><p></p><p>
-		 Method to clean an animation 
+		 <p>Method to clean an animation.  Once an animation is complete, we will delete the key from the 
+		 dictionary and in case there isn't any keys (meaning no more animation to consider) 
+		 we will set the stage frame rate to active mode. </p>
 		  
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">animationNameKey</span>:String</code></td></tr></table></p></div><a name="setFrameRate()"></a><a name="setFrameRate(int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setFrameRate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setFrameRate(framerate:int):void</code><p></p><p></p><p>
-		 Method to set the frame rate
+		 <p>The setFrameRate method sets the frame rate on the main window.  
+		 In case the user is in debug mode we want to displace trace statement in 
+		 the console to show the change.</p>
 		 
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">framerate</span>:int</code></td></tr></table></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Fri Jul 2 2010, 11:17 AM -04:00  </center></div></body></html><!--<br/>Fri Jul 2 2010, 11:17 AM -04:00  -->
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">framerate</span>:int</code></td></tr></table></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Sun Jul 4 2010, 08:59 AM -04:00  </center></div></body></html><!--<br/>Sun Jul 4 2010, 08:59 AM -04:00  -->
