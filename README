@@ -1,0 +1,1 @@
+'optimization tools' project will provide tools that can help optimize a Flash application. FrameRateControl is just the starting point and the idea is to eventually create a manager that will provide helpful tools for a developer all bundled together into one small swc. 
