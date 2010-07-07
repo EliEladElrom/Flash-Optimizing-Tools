@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600" 
+			   creationComplete="creationCompleteHandler()">
+	<fx:Script>
+		<![CDATA[
+			import com.elad.optimize.framerate.FrameRateControl;
+			
+			import mx.core.FlexGlobals;
+			import mx.core.UIComponent;
+			
+			private var frameRateControl:FrameRateControl;
+			
+			protected function creationCompleteHandler():void
+			{
+				var statsSprite:Stats = new Stats();
+				var componenent:UIComponent = new UIComponent();
+				
+				componenent.addChild( statsSprite );
+				stats.addElement( componenent );
+				
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="stats" />
+	
+	<fx:Declarations>
+		<s:Rotate3D id="rotateAnimation" target="{rotateBtn}" 
+					angleYFrom="0" angleYTo="360" 
+					duration="10000"
+					effectStart="frameRateControl.animate('rotateAnimation')"
+					effectEnd="frameRateControl.clearAnimation('rotateAnimation')"/>
+		
+		<s:Rotate3D id="rotateAnimation2" target="{rotateBtn2}" 
+					angleYFrom="0" angleYTo="360" 
+					duration="3000"
+					effectStart="frameRateControl.animate('rotateAnimation2')"
+					effectEnd="frameRateControl.clearAnimation('rotateAnimation2')"/>		
+	</fx:Declarations>
+	
+	<s:Button id="rotateBtn" label="long rotate" click="rotateAnimation.play();" width="200" x="40" y="314"/>
+	<s:Button id="rotateBtn2" label="rotate" click="rotateAnimation2.play();" width="200" x="40" y="350"/>
+	
+</s:Application>

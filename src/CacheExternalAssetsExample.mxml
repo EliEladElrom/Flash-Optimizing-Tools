@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.elad.optimize.collections.HashMapCollection;
+			import mx.controls.Image;
+			
+			private var map:HashMapCollection = new HashMapCollection();
+			
+			private function addImage(url:String, image:Image):void
+			{
+				image.addEventListener(Event.COMPLETE,  function(event:Event):void {
+					event.currentTarget.removeEventListener(event.type, arguments.callee);
+					
+					(image.content as Bitmap).cacheAsBitmap = true;
+					map.addItem( image.source, (image.content as Bitmap).bitmapData );
+				}); 
+				
+				if ( map.containsKey(url) )
+				{
+					var bitmapData:BitmapData = map.getItemValue( url ) as BitmapData;
+					var clonedChildContainer:Bitmap = new Bitmap( bitmapData.clone() );
+					
+					image.source = clonedChildContainer;
+				}
+				else
+				{
+					image.source = url;
+				}				
+			}		
+			
+			private function drawAnts():void
+			{				
+				var image:Image = new Image();
+				var url:String = "http://www.laquadrature.net/wiki/images/thumb/5/56/Ant.png/40px-Ant.png";
+				
+				image.addEventListener(Event.COMPLETE,  function(event:Event):void {
+					event.currentTarget.removeEventListener(event.type, arguments.callee);
+					
+					var bitmapData:BitmapData = (image.content as Bitmap).bitmapData;
+					map.addItem( image.source, (image.content as Bitmap).bitmapData );
+					
+					var source:Image = new Image();
+					
+					for ( var i:int = 0; i < 2000; i++)
+					{					
+						source = new Image();
+						source.x = Math.random() * 500;
+						source.y = Math.random() * 500;
+						source.rotation = Math.random() * 360;
+						group.addElement( source );
+						addImage(url, source );
+					}
+					
+				}); 
+				
+				image.source = url;
+				group.addElement( image );				
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:Group id="group" />
+	<s:Button label="drawAnts" click="drawAnts()" />
+
+</s:Application>
