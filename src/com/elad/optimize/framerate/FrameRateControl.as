@@ -48,7 +48,7 @@ package com.elad.optimize.framerate
 	 * 		<li>Provide a cross platform API  (Pure AS3, Flex, AIR)</li>
  	 * </ul>
  	 * 
-	 * For more information visit: http://elromdesign.com/blog
+	 * For more information visit: http://elromdesign.com/blog/2010/07/04/api-to-control-players-frame-rate-per-second-on-pure-as3flexair-apps/
 	 * 
 	 * @Example	Here is an example for pure AS3 project.
 	 * 
