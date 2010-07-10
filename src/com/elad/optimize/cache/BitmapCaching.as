@@ -60,9 +60,9 @@ package com.elad.optimize.cache
 	{
 		/**
 		 *	<p>Using the <code>cacheAsBitmap</code> method instruct the Player to cached the content as a bitmap and to render it on screen. 
-		 *	In case a change to the visual ocour than each frame will result in updating the cached copy on memory before updating the screen.  
+		 *	In case a change to the visual ocour then each frame will result in updating the cached copy on memory before updating the screen.  
 		 *	The solution is to use a technique where you rasterized and create different bitmap references using the same BitmapData. 
-		 *	Than, when you change the visual of the original BitmapData in memory the Flash Player will avoid redrawing, which will reduce 
+		 *	Then, when you change the visual of the original BitmapData in memory the Flash Player will avoid redrawing, which will reduce 
 		 *	CPU usage while keeping a smooth animation.</p>
 		 *  
 		 * @param source holds the sprite source that will be used to cache
@@ -298,7 +298,7 @@ package com.elad.optimize.cache
 		 * You can also set the scale property, which will allow you to scale up or down the display object in case you dont need 
 		 * a matrix representation at the same size.  
 		 * Keep in mind that just like <code>cacheAsBitmap</code>, <code>cacheAsBitmapMatrix</code> limits the content to be not more
-		 *  than 1020x1020 pixels and/or about four million pixels.
+		 *  then 1020x1020 pixels and/or about four million pixels.
 		 * 
 		 * @param sprite
 		 * @param scaleX	sets the scale of the x.  Example: 0.5 is 50%
