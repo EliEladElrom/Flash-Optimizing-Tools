@@ -33,8 +33,8 @@ package com.elad.optimize.memory
 	{
 
 		/**
-		 * Method that creates a temporary <code>SharedObject</code> which allows you find out the size of any object in bytes.
-		 * Once we find out the size of the object we clear the object since we have no need to store it.
+		 * Method that creates a temporary <code>SharedObject</code> which allows you to find out the size of any object in bytes.
+		 * Once we find out the size of the object we can clear the <code>SharedObject</code> since we have no need to store it anymore.
 		 * 
 		 * @param object
 		 * @return The current size of an object, in bytes.

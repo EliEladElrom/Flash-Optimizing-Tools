@@ -27,11 +27,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 package com.elad.optimize.cache
 {
 	import flash.net.LocalConnection;
+	import flash.system.System;
 
 	public final class GarbageCollector
 	{
 		public static function forceGarbageCollector( connectionName:String = "FORCE_CLEAN_UP" ):void
 		{
+			// works only in AIR in debug version
+			System.gc();
+			
+			// hack to force the gc
 			try {
 				new LocalConnection().connect( connectionName );
 				new LocalConnection().connect( connectionName );
