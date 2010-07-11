@@ -1,3 +1,3 @@
-'optimization tools' project will provide tools that can help optimize a Flash application. 
-FrameRateControl is just the starting point and the idea is to eventually create a manager that will provide helpful 
-tools for a developer all bundled together into one small swc. 
+'Optimization Tools' project will provide APIs that can help optimize a Flash application. 
+It provide a cross platform API (Pure AS3, Flex, AIR).
+The idea is to have a set of tools for developers to use all bundled together into one small swc.  
