@@ -8,6 +8,7 @@
 		<![CDATA[
 			import com.elad.optimize.cache.BitmapCaching;
 			import com.elad.optimize.cache.GarbageCollector;
+			import com.elad.optimize.memory.MemoryInfo;
 			
 			import flash.filters.DropShadowFilter;
 			
@@ -56,7 +57,7 @@
 				{
 					bitmap = BitmapCaching.createBitmapClip( bitmapData, setClipEventHandlers );
 					destination.addChild( bitmap ); 
-				}				
+				}	
 			}
 			
 			private function get spriteSource():Sprite

@@ -341,7 +341,7 @@ package com.elad.optimize.cache
 					matrix = displayObject.transform.concatenatedMatrix;
 				}
 				
-				displayObject.cacheAsBitmapMatrix = displayObject.transform.concatenatedMatrix;
+				displayObject.cacheAsBitmapMatrix = matrix;
 				displayObject.cacheAsBitmap = isCacheAsBitmap;				
 			}
 			else
