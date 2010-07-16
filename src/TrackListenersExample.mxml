@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600"
+			   creationComplete="check()">
+	<fx:Script>
+		<![CDATA[
+			import com.elad.optimize.memory.listeners;
+			
+			private var movieClip:MovieClip = new MovieClip();
+			private var movieClip2:MovieClip = new MovieClip();
+			
+			protected function btn_clickHandler(event:MouseEvent):void
+			{
+				movieClip.addEventListener( listeners.type = MouseEvent.CLICK, listeners.handler = onClick );
+				movieClip2.addEventListener( listeners.type = MouseEvent.CLICK, listeners.handler = onClick );
+				
+				movieClip.addEventListener( listeners.type = MouseEvent.DOUBLE_CLICK, listeners.handler = function(event:*):void {
+					trace("DOUBLE_CLICK");
+				});
+				
+				movieClip2.addEventListener( listeners.type = MouseEvent.DOUBLE_CLICK, listeners.handler = function(event:*):void {
+					trace("DOUBLE_CLICK");
+				});				
+				
+				check();				
+			}			
+			
+			private function onClick(event:MouseEvent):void
+			{
+				trace("onClick");
+			}
+			
+			private function check():void
+			{
+				trace("hasEventListener movieClip CLICK: " + movieClip.hasEventListener( MouseEvent.CLICK ) );
+				trace("hasEventListener movieClip2 CLICK: " + movieClip2.hasEventListener( MouseEvent.CLICK ) );
+				trace("hasEventListener movieClip DOUBLE_CLICK: " + movieClip.hasEventListener( MouseEvent.DOUBLE_CLICK ) );
+				trace("hasEventListener movieClip2 DOUBLE_CLICK: " + movieClip2.hasEventListener( MouseEvent.DOUBLE_CLICK ) );
+				trace("------------------------------------");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button id="btn" label="Add event listeners"
+			  click="btn_clickHandler(event)"/>
+	<s:Button label="remove movieClip listeners" x="158" y="0"
+			  click="listeners.removeAllListeners( movieClip, false ); check();" width="171"/>
+	
+	<s:Button label="remove movieClip2 listeners" x="158" y="29"
+			  click="listeners.removeAllListeners( movieClip2, false ); check();"/>	
+	
+</s:Application>
