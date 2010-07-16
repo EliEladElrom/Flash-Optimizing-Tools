@@ -59,10 +59,7 @@ package com.elad.optimize.memory
 				return;
 			
 			listenerItems.forEach( function callback(item:ListenerItem, index:int, vector:Vector.<ListenerItem>):void {
-				
-				if ( eventDispatcherObject.hasEventListener( item.type ) )
-					eventDispatcherObject.removeEventListener( item.type, item.handler );
-				
+				eventDispatcherObject.removeEventListener( item.type, item.handler );
 			});
 			
 			if (clearListenerItems)
