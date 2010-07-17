@@ -98,18 +98,18 @@
 	
 	<s:Group id="stats" />
 	
-	<s:Button label="Bitmap Cache" click="GarbageCollector.forceGarbageCollector(); 
+	<s:Button label="Bitmap Cache" click="GarbageCollector.forceGarbageCollector( FlexGlobals.topLevelApplication ); 
 			  checkBox.visible=true; group.removeAllElements(); 
 			  bitmapCache()" 
 			  x="283" y="4"/>
 	
-	<s:Button label="Manual Cache" click="GarbageCollector.forceGarbageCollector(); 
+	<s:Button label="Manual Cache" click="GarbageCollector.forceGarbageCollector( FlexGlobals.topLevelApplication ); 
 			  checkBox.visible=false; group.removeAllElements(); 
 			  manualCache()" 
 			  x="387" y="4"/>
 	
 	<s:CheckBox id="checkBox" x="170" y="6" label="bitmap cache all" 
-				click="GarbageCollector.forceGarbageCollector(); 
+				click="GarbageCollector.forceGarbageCollector( FlexGlobals.topLevelApplication ); 
 				BitmapCaching.setAllChildrenCachingPolicy( group.getElementAt(0), checkBox.selected, false, true );" 
 				visible="false" selected="true"/>
 
