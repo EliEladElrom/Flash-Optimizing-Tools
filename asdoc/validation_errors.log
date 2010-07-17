@@ -1,0 +1,3 @@
+Text for description in com.elad.optimize.memory:listeners is not valid.
+org.xml.sax.SAXParseException: The entity name must immediately follow the '&' in the entity reference.
+
