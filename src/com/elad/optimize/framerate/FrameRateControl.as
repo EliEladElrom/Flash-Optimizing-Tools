@@ -178,6 +178,15 @@ package com.elad.optimize.framerate
 			
 			this.isDebugMode = isDebugMode;
 			
+			setListeners();
+		}
+		
+		/**
+		 * Set the event listeners 
+		 * 
+		 */		
+		private function setListeners():void
+		{
 			if ( isAIR )
 			{
 				main.addEventListener( Event.DEACTIVATE, sleepModeHandler, false, 0, true );
@@ -187,6 +196,12 @@ package com.elad.optimize.framerate
 			{
 				main.addEventListener( MouseEvent.MOUSE_OUT, sleepModeHandler, false, 0, true );
 			}
+			
+			main.addEventListener(Event.ENTER_FRAME, function(event:Event):void {
+				event.currentTarget.removeEventListener(event.type, arguments.callee); 
+				
+				setFrameRate( ACTIVE_MODE_FRAME_RATE );
+			});
 		}
 		
 		/**

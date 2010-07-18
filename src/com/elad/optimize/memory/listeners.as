@@ -119,12 +119,27 @@ package com.elad.optimize.memory
 			if ( listenerItems == null )
 				return;
 			
+			var newListenerItems:Vector.<ListenerItem> = new Vector.<ListenerItem>();
+			
 			listenerItems.forEach( function callback(item:ListenerItem, index:int, vector:Vector.<ListenerItem>):void {
-				eventDispatcherObject.removeEventListener( item.type, item.handler );
+				
+				if (eventDispatcherObject.hasEventListener( item.type ) )
+				{
+					eventDispatcherObject.removeEventListener( item.type, item.handler );
+					
+					if ( eventDispatcherObject.willTrigger( item.type ) )
+						newListenerItems.push( item );
+				}
+				else
+				{
+					newListenerItems.push( item );
+				}
 			});
 			
 			if (clearListenerItems)
 				listenerItems = null;
+			else
+				listenerItems = newListenerItems;
 		}
 	}
 }

@@ -21,7 +21,7 @@
 				componenent.addChild( statsSprite );
 				stats.addElement( componenent );
 				
-				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true );
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true, false, 4, 1  );
 			}
 			
 		]]>
