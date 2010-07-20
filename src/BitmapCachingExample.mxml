@@ -6,6 +6,7 @@
 			   creationComplete="creationCompleteHandler()">
 	<fx:Script>
 		<![CDATA[
+			import com.elad.optimize.memory.FrameStats;
 			import com.elad.optimize.cache.BitmapCaching;
 			import com.elad.optimize.cache.GarbageCollector;
 			import com.elad.optimize.memory.MemoryInfo;
@@ -19,7 +20,7 @@
 			
 			protected function creationCompleteHandler():void
 			{
-				var statsSprite:Stats = new Stats();
+				var statsSprite:FrameStats = new FrameStats(FlexGlobals.topLevelApplication);
 				var componenent:UIComponent = new UIComponent();
 				
 				componenent.addChild( statsSprite );

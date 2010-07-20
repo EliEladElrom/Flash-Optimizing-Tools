@@ -6,6 +6,7 @@
 			   creationComplete="creationCompleteHandler()">
 	<fx:Script>
 		<![CDATA[
+			import com.elad.optimize.memory.FrameStats;
 			import com.elad.optimize.framerate.FrameRateControl;
 			
 			import mx.core.FlexGlobals;
