@@ -2,6 +2,31 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" 
-			   minWidth="955" minHeight="600">
+			   minWidth="955" minHeight="600"
+			   creationComplete="creationCompleteHandler()">
+	<fx:Script>
+		<![CDATA[
+			import com.elad.optimize.framerate.FrameRateControl;
+			
+			import mx.core.FlexGlobals;
+			import mx.core.UIComponent;
+			
+			private var frameRateControl:FrameRateControl;
+			private var frameStats:FrameStats;
+			
+			protected function creationCompleteHandler():void
+			{
+				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true)
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true, false, 4, 1);
+				
+				var componenent:UIComponent = new UIComponent();
+				componenent.addChild( frameStats );
+				frameStatsHolder.addElement( componenent );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="frameStatsHolder" />
 	
 </s:Application>
