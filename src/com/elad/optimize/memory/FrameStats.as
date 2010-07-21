@@ -192,7 +192,7 @@ package com.elad.optimize.memory
 				total+=Number(item.time);
 			});
 
-			drawGraph( 80, 80, 25, dataProvider, total );
+			drawGraph( 25, dataProvider, total );
 			updateLabels( dataProvider );
 		}
 		
@@ -295,7 +295,7 @@ package com.elad.optimize.memory
 			];
 		}		
 		
-		private function drawGraph( pieCenterX:int, pieCenterY:int, radius:int, dataProvider:Vector.<Object>, total:int ):void
+		private function drawGraph( radius:int, dataProvider:Vector.<Object>, total:int ):void
 		{
 			if (pieGraph != null)
 				removeChild( pieGraph );
