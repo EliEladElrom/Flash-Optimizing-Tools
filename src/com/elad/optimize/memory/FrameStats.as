@@ -46,6 +46,7 @@ package com.elad.optimize.memory
 		
 		private var isShowCounters:Boolean;
 		private var isDebugMode:Boolean;
+		private var isForceInvalidateAndUpdateAfterEvent:Boolean;
 		private var countSecondsSinceStart:int = 0;
 		
 		private var main:*;
@@ -98,11 +99,13 @@ package com.elad.optimize.memory
 		// charts data provider
 		private var dataProvider:Vector.<Object>;
 
-		public function FrameStats( main:*, isDebugMode:Boolean = false, isShowCounters:Boolean = false )
+		public function FrameStats( main:*, isDebugMode:Boolean = false, isShowCounters:Boolean = false, 
+									isForceInvalidateAndUpdateAfterEvent:Boolean = false )
 		{
 			this.main = main;
 			this.isDebugMode = isDebugMode;
 			this.isShowCounters = isShowCounters;
+			this.isForceInvalidateAndUpdateAfterEvent = isForceInvalidateAndUpdateAfterEvent;
 
 			addEventListener(Event.ENTER_FRAME, updateDisplay);
 			
@@ -138,7 +141,7 @@ package com.elad.optimize.memory
 			var startY:Number = 66.5;
 			
 			colors.forEach( function callback(item:uint, index:int, vector:Vector.<uint>):void {
-				startY+=6.1;
+				startY += 6.1;
 				rectangle = new Shape;
 				rectangle.graphics.beginFill(item);
 				rectangle.graphics.drawRect(0, 0, 5, 5);
@@ -157,15 +160,15 @@ package com.elad.optimize.memory
 			for (var i:int; i<4; i++)
 			{
 				item = new Sprite();
-				item.graphics.lineStyle(1, colors[i]);
-				item.graphics.moveTo(LINE_GRAPH_STARTING_POINT_X, 0);
+				item.graphics.lineStyle( 1, colors[i] );
+				item.graphics.moveTo( LINE_GRAPH_STARTING_POINT_X, 0 );
 				
 				lineGraphs.push( item );
 				addChild( item );
 			}
 		}
 		
-		private function setTextProp(text:TextField, x:int, y:int, width:int, height:int):void
+		private function setTextProp( text:TextField, x:int, y:int, width:int, height:int ):void
 		{
 			text.mouseEnabled = false;
 			text.condenseWhite = true;
@@ -189,8 +192,8 @@ package com.elad.optimize.memory
 				total+=Number(item.time);
 			});
 
-			drawGraph( 80, 80, 25, dataProvider, total);
-			updateLabels(dataProvider);
+			drawGraph( 80, 80, 25, dataProvider, total );
+			updateLabels( dataProvider );
 		}
 		
 		
@@ -207,8 +210,13 @@ package com.elad.optimize.memory
 					firstFinalUserCodeTime = getTimer()-startTime;
 				}
 				
-				//stage.invalidate();
-				//event.updateAfterEvent();
+				if (isDebugMode) trace("MouseEvent.MOUSE_MOVE");
+				
+				if (isForceInvalidateAndUpdateAfterEvent)
+				{
+					stage.invalidate();
+					event.updateAfterEvent();					
+				}
 			});
 			
 			main.addEventListener(Event.ENTER_FRAME, function(event:Event):void {
@@ -216,7 +224,7 @@ package com.elad.optimize.memory
 				isFinalUserCodeFirstTime = true;
 				
 				enterFrameCounter++;
-				enterFrameTime = getTimer()-startTime;
+				enterFrameTime = getTimer() - startTime;
 				
 				finalUserCodeExecuted = finalUserCodeTime-firstFinalUserCodeTime;
 				playerRendersChangesDisplayList = enterFrameTime-finalUserCodeTime;					
@@ -250,7 +258,7 @@ package com.elad.optimize.memory
 			main.addEventListener(Event.RENDER, function(event:Event):void {
 				
 				renderingCounter++;
-				renderingTime = getTimer()-startTime;
+				renderingTime = getTimer() - startTime;
 				
 				if (isDebugMode) trace("Event.RENDER");
 			});					
@@ -264,6 +272,7 @@ package com.elad.optimize.memory
 			
 			if (isShowCounters)
 			{
+				trace("------ counters -----");
 				trace("enterFrameCounter: " + enterFrameCounter );
 				trace("renderingCounter: "  + renderingCounter );
 				trace("mouseEventCounter: "  + mouseEventCounter );
@@ -309,6 +318,7 @@ package com.elad.optimize.memory
 					
 				lineGraphs[index].graphics.lineTo( LINE_GRAPH_STARTING_POINT_X + lineGraphCounter , ( 100-dataProvider[index].time ) );
 				
+				// draw pie
 				radian = Number( item.time ) / total * 2;
 				title = item.name;
 				

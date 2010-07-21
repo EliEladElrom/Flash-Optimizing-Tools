@@ -10,17 +10,22 @@
 			import com.elad.optimize.cache.BitmapCaching;
 			import com.elad.optimize.cache.GarbageCollector;
 			import com.elad.optimize.memory.MemoryInfo;
+			import com.elad.optimize.framerate.FrameRateControl;
 			
 			import flash.filters.DropShadowFilter;
 			
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
 			
+			private var frameRateControl:FrameRateControl;
+			
 			private static const NUM_OF_DISPLAY_OBJECTS:int = 500; 
 			
 			protected function creationCompleteHandler():void
 			{
-				var statsSprite:FrameStats = new FrameStats(FlexGlobals.topLevelApplication);
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true, false, 4, 1);
+
+				var statsSprite:FrameStats = new FrameStats(FlexGlobals.topLevelApplication, true);
 				var componenent:UIComponent = new UIComponent();
 				
 				componenent.addChild( statsSprite );
@@ -83,6 +88,8 @@
 					newY = Math.random() * ( stage.stageHeight - (clip.height / 2 ) );
 					
 					clip.addEventListener( Event.ENTER_FRAME, function( event:Event ):void {
+						
+						trace("clip:Event.ADDED_TO_STAGE");
 						
 						clip.x -= ( clip.x - newX ) * 0.25;
 						clip.y -= ( clip.y - newY ) * 0.25;

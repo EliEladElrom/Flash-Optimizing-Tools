@@ -17,7 +17,7 @@
 			
 			protected function creationCompleteHandler():void
 			{
-				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true)
+				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true);
 				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true, false, 4, 1);
 				
 				var componenent:UIComponent = new UIComponent();
