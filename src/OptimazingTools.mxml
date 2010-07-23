@@ -8,19 +8,9 @@
 		<![CDATA[
 			import com.elad.optimize.framerate.FrameRateControl;
 			import com.elad.optimize.memory.FrameStats;
-			import com.gskinner.performance.*;
 			
-			import flash.sampler.getSize;
-			
-			import mx.controls.Text;
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
-			
-			import spark.components.Button;
-			import spark.components.RichText;
-			import spark.components.supportClasses.Skin;
-			
-			import tests.*;
 			
 			private var frameRateControl:FrameRateControl;
 			private var frameStats:FrameStats;
@@ -36,9 +26,9 @@
 				componenent.addChild( frameStats );
 				frameStatsHolder.addElement( componenent );
 				
-				this.addEventListener(Event.ENTER_FRAME, onEnterFrame );
-				
 				uicom.addChild( sprite );
+				
+				frameStats.testingExecutionTimeOfMethod( methodToTest, 10000 ); 
 			}
 			
 			protected function button1_clickHandler():void
@@ -52,23 +42,10 @@
 				//PerformanceTestDemo();
 			}
 			
-			private var counter:int = 0;
-			private function onEnterFrame(event:Event):void
+			
+			private function methodToTest():void
 			{
-				if (++counter == 15)
-				{
-					frameStats.isDebugMode = true;
-					trace("********* add to stage START *********");
-					for (var i:int=0; i<1000; i++)
-						this.addElement( new RichText() );				
-				}
-				
-				if (counter == 16)
-				{
-					frameStats.isDebugMode = false;
-					this.removeEventListener(Event.ENTER_FRAME, onEnterFrame );
-					trace("********* add to stage END *********");					
-				}
+				sprite.addChild( new Group() );
 			}
 			
 		]]>

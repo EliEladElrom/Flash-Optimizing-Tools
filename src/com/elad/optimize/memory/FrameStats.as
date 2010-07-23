@@ -98,6 +98,13 @@ package com.elad.optimize.memory
 		
 		// charts data provider
 		private var dataProvider:Vector.<Object>;
+		
+		// testing
+		private var numOfFrames:int = 0;
+		private var methodToTest:Function;
+		private var numOfTimerToRun:int;
+		private var startEnterFrame:int;
+		private var stopEnterFrame:int;		
 
 		public function FrameStats( main:*, isDebugMode:Boolean = false, isShowCounters:Boolean = false, 
 									isForceInvalidateAndUpdateAfterEvent:Boolean = false )
@@ -382,5 +389,35 @@ package com.elad.optimize.memory
 			globalText.htmlText = globalStyle;
 			pieText.htmlText = pieStyle;
 		}
+		
+		public function testingExecutionTimeOfMethod( methodToTest:Function, numOfTimerToRun:int, 
+													   startEnterFrame:int = 15, stopEnterFrame:int = 16 ):void
+		{
+			this.numOfFrames = numOfFrames;
+			this.methodToTest = methodToTest;
+			this.numOfTimerToRun = numOfTimerToRun;
+			this.startEnterFrame = startEnterFrame;
+			this.stopEnterFrame = stopEnterFrame;
+			
+			main.addEventListener(Event.ENTER_FRAME, trackTest );
+		}
+		
+		private function trackTest(event:Event):void
+		{
+			if ( ++numOfFrames == startEnterFrame )
+			{
+				isDebugMode = true;
+				
+				for (var i:int=0; i < numOfTimerToRun; i++)
+					methodToTest();
+			}
+			
+			if ( numOfFrames == stopEnterFrame )
+			{
+				isDebugMode = false;
+				this.removeEventListener(Event.ENTER_FRAME, trackTest );
+				methodToTest = null;
+			}
+		}		
 	}
 }
