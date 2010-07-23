@@ -45,7 +45,7 @@ package com.elad.optimize.memory
 		private static var HEIGHT:int = 100;
 		
 		private var isShowCounters:Boolean;
-		private var isDebugMode:Boolean;
+		public var isDebugMode:Boolean;
 		private var isForceInvalidateAndUpdateAfterEvent:Boolean;
 		private var countSecondsSinceStart:int = 0;
 		

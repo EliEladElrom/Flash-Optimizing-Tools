@@ -12,9 +12,12 @@
 			
 			import flash.sampler.getSize;
 			
+			import mx.controls.Text;
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
 			
+			import spark.components.Button;
+			import spark.components.RichText;
 			import spark.components.supportClasses.Skin;
 			
 			import tests.*;
@@ -22,16 +25,20 @@
 			private var frameRateControl:FrameRateControl;
 			private var frameStats:FrameStats;
 			
+			private var sprite:Sprite = new Sprite();
+			
 			protected function creationCompleteHandler():void
 			{
-				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true );
+				frameStats = new FrameStats(FlexGlobals.topLevelApplication, false );
 				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, false, false, 1, 1);
 				
 				var componenent:UIComponent = new UIComponent();
 				componenent.addChild( frameStats );
 				frameStatsHolder.addElement( componenent );
 				
-				//this.addEventListener(Event.ENTER_FRAME, onAddToStage );
+				this.addEventListener(Event.ENTER_FRAME, onEnterFrame );
+				
+				uicom.addChild( sprite );
 			}
 			
 			protected function button1_clickHandler():void
@@ -46,18 +53,20 @@
 			}
 			
 			private var counter:int = 0;
-			private function onAddToStage(event:Event):void
+			private function onEnterFrame(event:Event):void
 			{
-				if (++counter == 5)
+				if (++counter == 15)
 				{
+					frameStats.isDebugMode = true;
 					trace("********* add to stage START *********");
-					for (var i:int=0; i<100; i++)
-						this.addElement( new UIComponent() );				
+					for (var i:int=0; i<1000; i++)
+						this.addElement( new RichText() );				
 				}
 				
-				if (counter == 6)
+				if (counter == 16)
 				{
-					this.removeEventListener(Event.ENTER_FRAME, onAddToStage );
+					frameStats.isDebugMode = false;
+					this.removeEventListener(Event.ENTER_FRAME, onEnterFrame );
 					trace("********* add to stage END *********");					
 				}
 			}
@@ -66,5 +75,6 @@
 	</fx:Script>
 	
 	<s:Group id="frameStatsHolder" />
+	<mx:UIComponent id="uicom" />
 	
 </s:Application>
