@@ -6,23 +6,60 @@
 			   creationComplete="creationCompleteHandler()">
 	<fx:Script>
 		<![CDATA[
-			import com.elad.optimize.memory.FrameStats;
 			import com.elad.optimize.framerate.FrameRateControl;
+			import com.elad.optimize.memory.FrameStats;
+			import com.gskinner.performance.*;
+			
+			import flash.sampler.getSize;
 			
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
+			
+			import spark.components.supportClasses.Skin;
+			
+			import tests.*;
 			
 			private var frameRateControl:FrameRateControl;
 			private var frameStats:FrameStats;
 			
 			protected function creationCompleteHandler():void
 			{
-				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true);
-				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, true, false, 4, 1);
+				frameStats = new FrameStats(FlexGlobals.topLevelApplication, true );
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, false, false, 1, 1);
 				
 				var componenent:UIComponent = new UIComponent();
 				componenent.addChild( frameStats );
 				frameStatsHolder.addElement( componenent );
+				
+				//this.addEventListener(Event.ENTER_FRAME, onAddToStage );
+			}
+			
+			protected function button1_clickHandler():void
+			{
+/* 				trace( "Shape: " + getSize( new Shape() ) );
+				trace( "Sprite: " + getSize( new Sprite() ) );
+				trace( "MovieClip: " + getSize( new MovieClip() ) );
+				trace( "UIComponent: " + getSize( new UIComponent() ) );
+				trace( "Group: " + getSize( new Group() ) );
+				trace( "Skin: " + getSize( new Skin() ) ); */
+				//PerformanceTestDemo();
+			}
+			
+			private var counter:int = 0;
+			private function onAddToStage(event:Event):void
+			{
+				if (++counter == 5)
+				{
+					trace("********* add to stage START *********");
+					for (var i:int=0; i<100; i++)
+						this.addElement( new UIComponent() );				
+				}
+				
+				if (counter == 6)
+				{
+					this.removeEventListener(Event.ENTER_FRAME, onAddToStage );
+					trace("********* add to stage END *********");					
+				}
 			}
 			
 		]]>

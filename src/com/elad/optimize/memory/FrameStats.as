@@ -199,7 +199,8 @@ package com.elad.optimize.memory
 		
 		private function synthesizesFrameRate():void
 		{
-			main.addEventListener(MouseEvent.MOUSE_MOVE, function onMouseMove(event:MouseEvent):void {
+			var trackChangeTimer:Timer = new Timer(100);
+			trackChangeTimer.addEventListener( TimerEvent.TIMER, function(event:TimerEvent):void {
 				
 				mouseEventCounter++;
 				finalUserCodeTime = getTimer()-startTime;
@@ -210,7 +211,7 @@ package com.elad.optimize.memory
 					firstFinalUserCodeTime = getTimer()-startTime;
 				}
 				
-				if (isDebugMode) trace("MouseEvent.MOUSE_MOVE");
+				//if (isDebugMode) trace("TIMER EVENT");
 				
 				if (isForceInvalidateAndUpdateAfterEvent)
 				{
@@ -218,6 +219,7 @@ package com.elad.optimize.memory
 					event.updateAfterEvent();					
 				}
 			});
+			trackChangeTimer.start();
 			
 			main.addEventListener(Event.ENTER_FRAME, function(event:Event):void {
 				
