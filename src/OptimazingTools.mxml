@@ -18,40 +18,32 @@
 			private var sprite:Sprite = new Sprite();
 			
 			protected function creationCompleteHandler():void
-			{
+			{				
 				frameStats = new FrameStats(FlexGlobals.topLevelApplication, false );
-				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, false, false, 1, 1);
+				frameRateControl = new FrameRateControl( FlexGlobals.topLevelApplication, false, false, 4, 24);
 				
 				var componenent:UIComponent = new UIComponent();
 				componenent.addChild( frameStats );
 				frameStatsHolder.addElement( componenent );
 				
-				uicom.addChild( sprite );
+				//trace( "Sprite: " + getSize(new Group()) );	
 				
-				frameStats.testingExecutionTimeOfMethod( methodToTest, 10000 ); 
+				uicom.addChild( sprite );
+				//frameStats.testingExecutionTimeOfMethod( methodToTest, 10000, 5, 6 );
 			}
-			
-			protected function button1_clickHandler():void
-			{
-/* 				trace( "Shape: " + getSize( new Shape() ) );
-				trace( "Sprite: " + getSize( new Sprite() ) );
-				trace( "MovieClip: " + getSize( new MovieClip() ) );
-				trace( "UIComponent: " + getSize( new UIComponent() ) );
-				trace( "Group: " + getSize( new Group() ) );
-				trace( "Skin: " + getSize( new Skin() ) ); */
-				//PerformanceTestDemo();
-			}
-			
 			
 			private function methodToTest():void
 			{
-				sprite.addChild( new Group() );
-			}
+				for (var i:int = 0; i < 10000; i++)
+				{
+					var x:Object = new Object();
+				}
+			}       
 			
 		]]>
 	</fx:Script>
 	
-	<s:Group id="frameStatsHolder" />
-	<mx:UIComponent id="uicom" />
+	<s:Group id="frameStatsHolder" cachePolicy="auto" />
+	<mx:UIComponent id="uicom" cachePolicy="auto" />
 	
 </s:Application>

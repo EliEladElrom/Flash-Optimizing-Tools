@@ -6,14 +6,13 @@
 			   creationComplete="creationCompleteHandler()">
 	<fx:Script>
 		<![CDATA[
-			import com.elad.optimize.memory.FrameStats;
+			
 			import com.elad.optimize.cache.BitmapCaching;
 			import com.elad.optimize.cache.GarbageCollector;
-			import com.elad.optimize.memory.MemoryInfo;
 			import com.elad.optimize.framerate.FrameRateControl;
+			import com.elad.optimize.memory.FrameStats;
 			
 			import flash.filters.DropShadowFilter;
-			
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
 			

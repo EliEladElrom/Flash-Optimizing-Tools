@@ -277,13 +277,8 @@ BrowserHistory = (function() {
                 historyHash[history.length] = flexAppUrl;
                 _storeStates();
             } else {
-                // Otherwise, write an anchor into the page and tell the browser to go there
-                addAnchor(flexAppUrl);
+                // Otherwise, just tell the browser to go there
                 setHash(flexAppUrl);
-                
-                // For IE8 we must restore full focus/activation to our invoking player instance.
-                if (browser.ie8)
-                    getPlayer().focus();
             }
         }
         backStack.push(createState(baseUrl, newUrl, flexAppUrl));
@@ -442,14 +437,6 @@ BrowserHistory = (function() {
             }
         }
         //setTimeout(checkForUrlChange, 50);
-    }
-
-    /* Write an anchor into the page to legitimize it as a URL for Firefox et al. */
-    function addAnchor(flexAppUrl)
-    {
-       if (document.getElementsByName(flexAppUrl).length == 0) {
-           getAnchorElement().innerHTML += "<a name='" + flexAppUrl + "'>" + flexAppUrl + "</a>";
-       }
     }
 
     var _initialize = function () {

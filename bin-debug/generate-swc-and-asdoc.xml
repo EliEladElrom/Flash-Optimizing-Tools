@@ -26,7 +26,9 @@
     </target>
 	 <!-- generate the swc -->
 	<target name="swc-generator" description="Compile the SWC file">
-		<compc output="${swc.dir}/${swcfilename}">
+		<compc output="${swc.dir}/${swcfilename}"
+        	optimize="true"
+        	debug="false">
 			<include-libraries file="${libpath}/" />
 			<!-- include our Class packages into the build (com folder) -->
 			<include-sources dir="${doc.dir}/src/com" includes="*" />
