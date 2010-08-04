@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   minWidth="1024"
+			   initialize="initializeHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.elad.framework.multiuploader.enum.FileTypeFormat;
+			import com.elad.framework.multiuploader.LocalFileHelper;
+			import com.elad.framework.multiuploader.events.LocalFileLoadedEvent;
+			import com.elad.framework.multiuploader.events.LocalFileErrorEvent;
+			import com.elad.framework.multiuploader.events.LocalFileEvent;
+
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			private var localFileHelper:LocalFileHelper;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				localFileHelper = new LocalFileHelper( FileTypeFormat.FILE_FILTER_TEXT_TYPE );
+				
+				localFileHelper.addEventListener(LocalFileEvent.FILE_LOAD_BROWSE, onFileSelect);
+				localFileHelper.addEventListener(LocalFileEvent.FILE_SAVE_BROWSE, function():void { trace("Save browse complete"); } );
+				localFileHelper.addEventListener(LocalFileEvent.FILE_SAVE_SUCCESSFULLY, function():void { trace("Save complete!"); } );
+				localFileHelper.addEventListener(LocalFileEvent.FILE_CANCEL, function():void { Alert.show("Cancel"); } );
+				localFileHelper.addEventListener(LocalFileErrorEvent.FILE_ERROR, function():void { trace("file error") } );
+			}
+			
+			private function loadFile():void
+			{
+				localFileHelper.browse();
+			}
+			
+			private function onFileSelect(event:LocalFileEvent):void
+			{
+				localFileHelper.addEventListener(LocalFileLoadedEvent.DATA_LOADED, onDataLoaded );
+				localFileHelper.load();
+			}
+			
+			private function onDataLoaded(event:LocalFileLoadedEvent):void
+			{
+				output.text = LocalFileHelper.convertByteArrayToText( event.byteLoaded );
+			}
+			
+			private function saveFile():void
+			{
+				localFileHelper.save( output.text, "test.txt" );
+			} 		
+		
+		]]>
+	</fx:Script>
+	
+	<s:Button label="Load" click="loadFile()" />
+	<s:Button label="Save" click="saveFile()"  x="84"/>
+	<s:TextArea id="output" y="37" width="397" height="327"/>	
+	
+</s:Application>

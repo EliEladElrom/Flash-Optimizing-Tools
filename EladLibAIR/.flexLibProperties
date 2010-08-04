@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" version="1">
+  <includeClasses>
+    <classEntry path="com.adobe.data.encryption.EncryptionKeyGenerator"/>
+    <classEntry path="com.elad.framework.sqlite.ISQLiteManager"/>
+    <classEntry path="com.elad.framework.sqlite.SQLiteManager"/>
+    <classEntry path="com.elad.framework.sqlite.events.DatabaseFailEvent"/>
+    <classEntry path="com.elad.framework.sqlite.events.DatabaseSuccessEvent"/>
+    <classEntry path="com.elad.framework.sqlite.events.StatementCompleteEvent"/>
+    <classEntry path="com.elad.framework.utils.ContextAwarenessManager"/>
+    <classEntry path="com.elad.framework.utils.DownloadManager"/>
+    <classEntry path="com.elad.framework.utils.FileHelper"/>
+    <classEntry path="com.elad.framework.utils.IContextAwarenessManager"/>
+    <classEntry path="com.elad.framework.utils.LocalFileHelper"/>
+    <classEntry path="com.elad.framework.utils.ReadDirectoryHelper"/>
+    <classEntry path="com.elad.framework.utils.collections.HashMapCollection"/>
+    <classEntry path="com.elad.framework.utils.collections.HashMapManager"/>
+    <classEntry path="com.elad.framework.utils.collections.IMap"/>
+    <classEntry path="com.elad.framework.utils.enum.FileTypeFormat"/>
+    <classEntry path="com.elad.framework.utils.enum.InteractionStates"/>
+    <classEntry path="com.elad.framework.utils.events.LocalFileErrorEvent"/>
+    <classEntry path="com.elad.framework.utils.events.LocalFileEvent"/>
+    <classEntry path="com.elad.framework.utils.events.LocalFileLoadedEvent"/>
+    <classEntry path="com.elad.framework.vo.ContextVO"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

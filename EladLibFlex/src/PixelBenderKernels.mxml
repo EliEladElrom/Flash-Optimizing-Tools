@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="1024" minHeight="768" xmlns:local="*" 
+			   applicationComplete="creationCompleteHandler(event)">
+	
+	<!-- 
+	
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	//  Elad Elrom (elad@elromdesign.com)
+	//  Copyright 2009 Elorm LLC,
+	//  All Rights Reserved.
+	//
+	//  NOTICE: Elad Elrom permits you to use, modify, and distribute this file
+	//  in accordance with the terms of the license agreement accompanying it.
+	//
+	////////////////////////////////////////////////////////////////////////////////
+	
+	@author  Elad Elrom
+	
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+			import com.elad.framework.pixelbender.PixelBenderCalculator;
+			import com.elad.framework.pixelbender.events.PixelBenderCompleteEvent;
+			import mx.skins.halo.BusyCursor;
+			import mx.controls.Alert;
+			import net.hires.debug.Stats;
+			import mx.core.UIComponent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.events.FlexEvent;
+			
+			[Embed(source="assets/pbj/CosCalculator.pbj", mimeType="application/octet-stream")]
+			private var kernalClass:Class;
+			private var pixelBenderCalc:PixelBenderCalculator;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				component.addChild( new Stats() );
+				addElement(component);				
+			}			
+			
+			protected function startCalculatorPixelBender():void
+			{
+				// create a number collection
+				var numberCollection:Array = new Array();
+				
+				for (var i:int=0; i<5000000; i++)
+				{
+					numberCollection.push( i );
+				}
+				
+				// calculate
+				pixelBenderCalc = new PixelBenderCalculator(numberCollection, kernalClass);
+				pixelBenderCalc.addEventListener( PixelBenderCompleteEvent.COMPLETED_EVENT, onComplete );
+				
+				cursorManager.setBusyCursor();
+				pixelBenderCalc.start();
+			}
+			
+			
+			private function startCalculatorFlashPlayer():void
+			{
+				// create a number collection
+				var numberCollection:Array = new Array();
+				
+				cursorManager.setBusyCursor();
+				
+				for (var i:int=0; i<5000000; i++)
+				{
+					numberCollection.push( Math.cos(i) );
+				}
+				
+				console0.text = "Flash Player calculations completed";
+				list0.dataProvider = new ArrayCollection(numberCollection);
+				
+				cursorManager.removeBusyCursor();
+			}			
+			
+			private function onComplete(event:PixelBenderCompleteEvent):void
+			{
+				pixelBenderCalc.removeEventListener(PixelBenderCompleteEvent.COMPLETED_EVENT, onComplete);
+				
+				list.dataProvider = new ArrayCollection(event.numberCollection);
+				console.text = console.text + "\nPixel bender calculations completed";
+				
+				cursorManager.removeBusyCursor();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:List id="list"  width="200" height="531.5"/>
+	<s:List id="list0" width="200" height="531.5" x="212" y="0"/>
+	
+	<s:Button label="Calculate with Pixel Bender" width="200" height="20" y="545" click="startCalculatorPixelBender()"/>
+	<s:Button label="Calculate with Flash Player" width="200" height="20" y="545" click="startCalculatorFlashPlayer()" x="212"/>
+	
+	<s:TextArea id="console"  x="0"   y="585" width="200" height="125"/>
+	<s:TextArea id="console0" x="209" y="585" width="200" height="125"/>
+	
+	<s:VideoPlayer id="vid" width="355" height="290" 
+				   source="http://www.safeexpress.se/video/flv/radiobil-remastered.flv" 
+				   autoPlay="true" x="440" y="10"/>
+	
+	<mx:UIComponent id="component" x="436" y="343" width="70" height="100"/>
+	
+</s:Application>

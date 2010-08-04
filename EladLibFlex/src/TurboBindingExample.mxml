@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	minWidth="1024" minHeight="768"
+	creationComplete="TurboBinding.setup(this);">
+	
+	<fx:Script>
+		<![CDATA[
+		
+			import mx.utils.ObjectProxy;
+			import com.elad.framework.binding.TurboBinding;
+			
+			[TurboBinding(destination="btn1.label", unwatchCounter=5, callback="onPropertyChangeHandler")]
+			public var customer1:ObjectProxy = new ObjectProxy(new CustomerVO());
+			
+			[TurboBinding(destination="btn2.label")]
+			public var customer2:ObjectProxy = new ObjectProxy(new CustomerVO());
+
+			[TurboBinding(source="textInputOne.text", destination="textInputTwo.text", twoWay="true", unwatchCounter=5)]
+			public function callBackFunction(newValue:String):void
+			{
+				trace(newValue);
+			}
+						
+			public function onPropertyChangeHandler(val:String):void
+			{
+				trace("onPropertyChangeHandler:"+val);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout />
+	</s:layout>	
+	
+	<s:Button id="btn1" label="change" click="customer1.customerID++" />
+	<s:Button id="btn2" label="change" click="customer2.customerID++" />
+	
+	<mx:TextInput id="textInputOne" width="150" />
+	<mx:TextInput id="textInputTwo" width="150" />	
+	
+</s:Application>
