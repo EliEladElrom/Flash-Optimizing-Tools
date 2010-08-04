@@ -382,7 +382,9 @@ package com.elad.optimize.memory
 			pieStyle.finalUserCodeExecuted = "Final UserCode: " + dataProvider[2].time;
 			pieStyle.playerRendersChangesDisplayList = "Display changes: " + dataProvider[3].time;
 			
-			globalStyle.fps = "FPS: " + stage.frameRate;
+			if (stage != null)
+				globalStyle.fps = "FPS: " + stage.frameRate;
+			
 			globalStyle.memory = "MEM: " + Number( ( System.totalMemory * 0.000000954 ).toFixed(2) );
 			globalStyle.time = "TIME: " + countSecondsSinceStart;
 			

@@ -33,7 +33,13 @@ package com.elad.optimize.memory
 	{
 
 		/**
-		 * Method that creates a temporary <code>SharedObject</code> which allows you to find out the size of any object in bytes.
+		 * There are times where you want to find out the memory size of an object.  
+		 * The easiest way is to use getSize method in projects.  It returns the size in memory of a specified object when used with the Flash Player 9.0.115.0 or later debugger version. 
+		 * 
+		 * In case you want to find out the memory size of an object during runtime without the debugger version you can retrieve the information by creating a shared object (Flash cookie), 
+		 * find out the size of the object and then clear the cookie.
+		 * 
+		 * The method creates a temporary <code>SharedObject</code> which allows you to find out the size of any object in bytes.
 		 * Once we find out the size of the object we can clear the <code>SharedObject</code> since we have no need to store it anymore.
 		 * 
 		 * @param object
