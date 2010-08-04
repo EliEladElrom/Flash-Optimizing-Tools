@@ -385,7 +385,7 @@ package com.elad.optimize.memory
 			if (stage != null)
 				globalStyle.fps = "FPS: " + stage.frameRate;
 			
-			globalStyle.memory = "MEM: " + Number( ( System.totalMemory * 0.000000954 ).toFixed(2) );
+			globalStyle.memory = "MEM: " + Number( ( System.totalMemory * 0.0000001 ).toFixed(2) );
 			globalStyle.time = "TIME: " + countSecondsSinceStart;
 			
 			globalText.htmlText = globalStyle;
