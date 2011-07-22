@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Graphic xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns="http://ns.adobe.com/fxg/2008" xmlns:flm="http://ns.adobe.com/flame/2008" version="2.0">
+	<Group flm:knockout="false">
+		<Path winding="nonZero" x="1.278" y="1.271" data="M 0 7.782 L 7.654 0.126 C 8.75 0.828 10.005 1.196 11.309 1.196 C 12.697 1.196 14.019 0.784 15.155 0 L 22.936 7.781 L 11.468 19.25 L 0 7.782 Z">
+			<fill>
+				<LinearGradient rotation="90" scaleX="41.4187" x="11.468" y="-0.258">
+					<GradientEntry color="#FFDE17" ratio="0"/>
+					<GradientEntry color="#F4B321" ratio="1"/>
+				</LinearGradient>
+			</fill>
+		</Path>
+		<Path winding="nonZero" x="0.571" y="0.614" data="M 15.795 1.297 L 22.936 8.438 L 12.175 19.2 L 2.412 9.438 L 2.414 9.438 L 1.414 8.438 L 8.438 1.413 C 9.529 2.031 10.751 2.354 12.016 2.354 C 13.366 2.354 14.657 1.99 15.795 1.297 M 15.912 0 C 14.838 0.846 13.488 1.354 12.016 1.354 C 10.625 1.354 9.344 0.898 8.301 0.137 L 0.035 8.402 L 0 8.438 L 0.002 8.439 L 0 8.439 L 12.175 20.614 L 24.349 8.439 L 24.35 8.438 L 15.912 0 L 15.912 0 Z">
+			<fill>
+				<SolidColor color="#ED1C24"/>
+			</fill>
+		</Path>
+	</Group>
+</Graphic>
